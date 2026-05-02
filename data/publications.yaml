@@ -1,0 +1,20 @@
+- title: A Comparative Study on Machine Learning Algorithms for Knowledge Discovery
+  abstract: >
+    A survey and head-to-head benchmark of symbolic regression methods —
+    Genetic Programming, Deep Symbolic Regression, AI-Feynman, and NeSymRes —
+    on the Feynman-03 and Nguyen-12 datasets. We highlight the strengths,
+    failure modes, and open problems for each family of methods.
+  authors: "S. S. Suseela, Y. Feng, K. Mao"
+  date: "Dec 2022"
+  venue: "ICARCV 2022"
+  href: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=cK5ea-cAAAAJ&citation_for_view=cK5ea-cAAAAJ:u-x6o8ySG0sC"
+
+- title: Scientific Machine Learning for Knowledge Discovery
+  abstract: >
+    Master's thesis at Nanyang Technological University. Investigates how
+    machine learning methods can recover interpretable, closed-form models from
+    data — bridging the gap between black-box prediction and scientific insight.
+  authors: "S. S. Suseela"
+  date: "2022"
+  venue: "Nanyang Technological University"
+  href: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=cK5ea-cAAAAJ&citation_for_view=cK5ea-cAAAAJ:u5HHmVD_uO8C"

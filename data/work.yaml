@@ -1,0 +1,26 @@
+- id: hyp-lead
+  when: "Apr 2026 - Present"
+  role: Lead Software Engineer
+  company: Hypotenuse AI
+  current: true
+  bullets:
+    - "Own the technical roadmap and architecture for the product database, enrichment services, generation systems and several other services - scaling infrastructure to handle millions of SKUs daily while actively driving down AI and compute costs."
+    - "Building generation feedback loops, model retraining pipelines, and internal AI tooling to improve engineering velocity and output quality across the team."
+
+- id: hyp-senior
+  when: "Jan 2025 - Apr 2026"
+  role: Senior Software Engineer
+  company: Hypotenuse AI
+  bullets:
+    - "Architected and shipped the end-to-end product data platform - a multi-tenant product database, agentic web enrichment pipeline, and bulk processing infrastructure capable of enriching 100k+ products reliably at scale with sub-second query latency across 2M+ products."
+    - "Built a canvas-based image editing engine with snapshotting, standard editing operations, and integrated AI image generation models; shipped custom ProseMirror and TipTap nodes with purpose-built interactions for rich content editing."
+    - "Set up robust observability across databases and compute using OpenTelemetry, with monitoring and alerting pipelines wired through AWS Grafana and Prometheus."
+
+- id: hyp-swe
+  when: "Jan 2023 - Jan 2025"
+  role: Software Engineer
+  company: Hypotenuse AI
+  bullets:
+    - "Built core AI platform capabilities from the ground up - RAG pipelines, LLM streaming infrastructure, vector database integration, rate-limiting systems for generation and external APIs, and a web crawler that periodically indexes configured domains to surface contextually relevant content ideas."
+    - "Shipped research-grounded blog generation workflows with inline citations, and architected the platform-wide migration from credit-based to word-based pricing to support flexible monetisation across all generation workflows."
+    - "Provisioned multi-region AWS infrastructure via Terraform, reduced image generation costs by 89%, and cut server memory consumption by 99.5% through deep profiling and targeted optimisation."
