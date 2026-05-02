@@ -1,0 +1,19 @@
+# Design source — reference only, ported into the Hugo site
+Claude Design Resources/
+
+# Hugo
+/public/
+/resources/_gen/
+/.hugo_build.lock
+hugo_stats.json
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Env
+.env
+.env.local
