@@ -1,0 +1,86 @@
+{{- /* Structured data — Person on home, BlogPosting on writing, CreativeWork on projects, WebSite as default */ -}}
+{{- $author := dict
+  "@type" "Person"
+  "name" site.Params.author
+  "url" site.BaseURL
+-}}
+{{- if .IsHome -}}
+{{- $sameAs := slice -}}
+{{- with site.Params.socials.github }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- with site.Params.socials.linkedin }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- with site.Params.socials.x }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- with site.Params.socials.scholar }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- with site.Params.socials.garden }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- $person := dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" site.Params.author
+  "alternateName" site.Params.brand
+  "url" site.BaseURL
+  "description" site.Params.description
+  "sameAs" $sameAs
+-}}
+{{- with site.Params.geo }}{{ $person = merge $person (dict "address" (dict "@type" "PostalAddress" "addressCountry" .region "addressLocality" .placename)) }}{{ end -}}
+<script type="application/ld+json">{{ $person | jsonify | safeJS }}</script>
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "name" site.Title
+  "url" site.BaseURL
+  "author" $author
+  | jsonify | safeJS }}</script>
+{{- else if and .IsPage (eq .Section "writing") -}}
+{{- $img := "" -}}{{- with .Params.cover }}{{ $img = absURL . }}{{ end -}}
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "description" (or .Params.subtitle .Summary | plainify | truncate 200)
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+  "author" $author
+  "publisher" $author
+  "mainEntityOfPage" .Permalink
+  "url" .Permalink
+  "image" $img
+  "keywords" (delimit .Params.tags ", ")
+  "wordCount" .WordCount
+  | jsonify | safeJS }}</script>
+{{- else if and .IsPage (eq .Section "projects") -}}
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "CreativeWork"
+  "name" .Title
+  "description" (or .Params.oneliner .Params.subtitle | plainify | truncate 200)
+  "url" .Permalink
+  "creator" $author
+  "dateCreated" (.Date.Format "2006-01-02")
+  "keywords" (delimit .Params.tags ", ")
+  | jsonify | safeJS }}</script>
+{{- else -}}
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "WebPage"
+  "name" .Title
+  "url" .Permalink
+  "description" (or .Description site.Params.description)
+  "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.BaseURL)
+  | jsonify | safeJS }}</script>
+{{- end -}}
+
+{{- /* Breadcrumbs */ -}}
+{{- if not .IsHome -}}
+{{- $items := slice -}}
+{{- $items = $items | append (dict "@type" "ListItem" "position" 1 "name" "Home" "item" site.BaseURL) -}}
+{{- if .Section -}}
+{{- $items = $items | append (dict "@type" "ListItem" "position" 2 "name" (humanize .Section) "item" (printf "%s%s/" site.BaseURL .Section)) -}}
+{{- end -}}
+{{- if .IsPage -}}
+{{- $items = $items | append (dict "@type" "ListItem" "position" (add (len $items) 1) "name" .Title "item" .Permalink) -}}
+{{- end -}}
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "BreadcrumbList"
+  "itemListElement" $items
+  | jsonify | safeJS }}</script>
+{{- end -}}

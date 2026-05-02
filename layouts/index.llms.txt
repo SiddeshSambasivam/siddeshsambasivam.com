@@ -1,0 +1,84 @@
+{{- /*
+  llms.txt — see https://llmstxt.org/
+  A concise, link-rich index of this site for LLMs and AI agents.
+*/ -}}
+# {{ site.Params.author }}
+
+> {{ site.Params.description }}
+
+This is the personal website of {{ site.Params.author }} ({{ site.Params.brand }}). It contains writing, projects, work history, and publications. The content is plain Markdown sourced from a Hugo site at `{{ site.BaseURL }}`.
+
+## About
+
+- [About]({{ "/about/" | absURL }}): Background, current role, and contact.
+- Author: {{ site.Params.author }}
+- Site: {{ site.BaseURL }}
+{{- with site.Params.socials }}
+{{- with .github }}
+- GitHub: {{ . }}
+{{- end }}
+{{- with .linkedin }}
+- LinkedIn: {{ . }}
+{{- end }}
+{{- with .scholar }}
+- Google Scholar: {{ . }}
+{{- end }}
+{{- with .x }}
+- X: {{ . }}
+{{- end }}
+{{- with .garden }}
+- Digital Garden: {{ . }}
+{{- end }}
+{{- with .email }}
+- Email: {{ strings.TrimPrefix "mailto:" . }}
+{{- end }}
+{{- end }}
+
+## Writing
+
+{{- $writing := where site.RegularPages "Section" "writing" }}
+{{- if $writing }}
+{{- range $writing.ByDate.Reverse }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Params.subtitle }}: {{ . }}{{ else }}{{ with .Summary }}: {{ . | plainify | truncate 160 }}{{ end }}{{ end }} ({{ .Date.Format "2006-01-02" }})
+{{- end }}
+{{- else }}
+- (No posts yet.)
+{{- end }}
+
+## Projects
+
+{{- $projects := sort (where site.RegularPages "Section" "projects") "Weight" }}
+{{- if $projects }}
+{{- range $projects }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Params.oneliner }}: {{ . }}{{ else }}{{ with .Params.subtitle }}: {{ . }}{{ end }}{{ end }}
+{{- end }}
+{{- else }}
+- (No projects yet.)
+{{- end }}
+
+## Work
+
+{{- with site.Data.work }}
+{{- range . }}
+- {{ .role }} at {{ .company }} ({{ .when }}){{ with .oneliner }} — {{ . }}{{ end }}
+{{- end }}
+{{- end }}
+
+## Publications
+
+{{- with site.Data.publications }}
+{{- range . }}
+- "{{ .title }}" — {{ .authors }}. *{{ .venue }}*, {{ .date }}.{{ with .href }} {{ . }}{{ end }}
+{{- end }}
+{{- end }}
+
+## Optional
+
+- [Home]({{ "/" | absURL }})
+- [Writing index]({{ "/writing/" | absURL }})
+- [Projects index]({{ "/projects/" | absURL }})
+- [RSS feed]({{ "/index.xml" | absURL }})
+- [Sitemap]({{ "/sitemap.xml" | absURL }})
+
+---
+Generated automatically from the Hugo site source. Last build: {{ now.Format "2006-01-02" }}.
