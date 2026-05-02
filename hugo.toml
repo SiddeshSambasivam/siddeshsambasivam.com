@@ -1,0 +1,96 @@
+baseURL = "https://siddeshsambasivam.com/"
+languageCode = "en-us"
+title = "Sid's Website"
+enableRobotsTXT = true
+enableGitInfo = false
+enableEmoji = true
+summaryLength = 30
+
+# Pretty URLs, no ugly extensions
+[permalinks]
+  writing = "/writing/:filename/"
+  projects = "/projects/:filename/"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    style = "github"
+    lineNos = false
+    tabWidth = 2
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
+
+[outputs]
+  home = ["HTML", "RSS", "LLMS"]
+  section = ["HTML", "RSS"]
+
+[outputFormats]
+  [outputFormats.LLMS]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+    permalinkable = false
+
+[taxonomies]
+  tag = "tags"
+
+[params]
+  description = "Engineering lead at Hypotenuse AI, building LLM infrastructure for ecommerce product data at scale."
+  author = "Siddesh Sambasivam Suseela"
+  brand = "sid"
+  hero_name = "Hi, I'm Sid"
+  hero_emoji = "👋"
+  hero_tagline_html = "Engineering lead at <a href=\"https://hypotenuse.ai\" target=\"_blank\">Hypotenuse AI</a>, building LLM infrastructure for ecommerce product data at scale."
+  defaultTheme = "light"
+  copyright_year = 2026
+
+  hero_bullets = []
+
+  # Geo metadata for GEO/local SEO
+  [params.geo]
+    region = "SG"
+    placename = "Singapore"
+    latitude = "1.3521"
+    longitude = "103.8198"
+
+  [params.socials]
+    github = "https://github.com/SiddeshSambasivam"
+    linkedin = "https://www.linkedin.com/in/siddeshss/"
+    x = "https://x.com/ssiddesh45"
+    scholar = "https://scholar.google.com/citations?user=cK5ea-cAAAAJ&hl=en"
+    garden = "https://notes.siddeshsambasivam.com/"
+    email = "mailto:siddeshsambasivam.official@gmail.com"
+    rss = "/index.xml"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 10
+    identifier = "home"
+  [[menu.main]]
+    name = "Writing"
+    url = "/writing/"
+    weight = 20
+    identifier = "writing"
+  [[menu.main]]
+    name = "Projects"
+    url = "/projects/"
+    weight = 30
+    identifier = "projects"
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 40
+    identifier = "about"
+
+[build]
+  writeStats = true
+
+[minify]
+  minifyOutput = true
