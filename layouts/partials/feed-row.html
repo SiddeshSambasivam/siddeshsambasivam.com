@@ -1,0 +1,31 @@
+{{- /*
+  Feed row partial. Accepts a dict:
+    type     — "post" | "project" | "garden"
+    title
+    url
+    date     — formatted string
+    tags     — slice of strings
+    icon     — icon name (optional; inferred from type)
+    external — bool
+*/ -}}
+{{- $type := .type | default "post" -}}
+{{- $icon := .icon -}}
+{{- if not $icon -}}
+  {{- if eq $type "post" -}}{{- $icon = "pen" -}}
+  {{- else if eq $type "project" -}}{{- $icon = "sparks" -}}
+  {{- else if eq $type "garden" -}}{{- $icon = "book" -}}
+  {{- else -}}{{- $icon = "doc" -}}{{- end -}}
+{{- end -}}
+{{- $external := false -}}{{- if .external -}}{{- $external = true -}}{{- end -}}
+{{- $arrow := cond $external "arrow" "chev-right" -}}
+<a href="{{ .url }}" class="feed-row"{{ if $external }} rel="noopener" target="_blank"{{ end }}>
+  <span class="feed-icon">{{ partial "icons.html" (dict "name" $icon "size" 13) }}</span>
+  <span class="feed-type">{{ $type }}</span>
+  <span class="feed-title-block">
+    <span class="feed-title">{{ .title }}</span>
+    {{- with .oneliner }}<span class="feed-oneliner">{{ . }}</span>{{ end -}}
+  </span>
+  <span class="feed-tags">{{ range .tags }}<span class="tag">{{ . }}</span>{{ end }}</span>
+  <span class="feed-date">{{ .date }}</span>
+  <span class="feed-arrow">{{ partial "icons.html" (dict "name" $arrow "size" 13) }}</span>
+</a>

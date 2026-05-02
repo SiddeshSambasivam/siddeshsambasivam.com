@@ -1,0 +1,47 @@
+{{ define "main" }}
+{{- $hasToc := and (gt (len .TableOfContents) 50) (ne .Params.toc false) -}}
+{{- $backUrl := "/" -}}
+{{- $backLabel := "Back" -}}
+{{- if eq .Section "writing" -}}{{- $backUrl = "/writing/" -}}{{- $backLabel = "Back to writing" -}}{{- end -}}
+{{- if eq .Section "projects" -}}{{- $backUrl = "/projects/" -}}{{- $backLabel = "Back to projects" -}}{{- end -}}
+
+{{ if $hasToc }}
+<div class="post-layout">
+  <aside class="post-toc">
+    <div class="post-toc-title">On this page</div>
+    {{ .TableOfContents }}
+  </aside>
+  <article class="post-body">
+    {{ partial "post-header.html" (dict "page" . "backUrl" $backUrl "backLabel" $backLabel) }}
+    {{ if .Params.cover }}
+      <div class="post-cover">
+        <img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/>
+      </div>
+    {{ else if .Params.cover_label }}
+      <div class="post-cover">
+        <div class="cover-icon">
+          <div class="badge">{{ partial "icons.html" (dict "name" (.Params.cover_icon | default "code") "size" 18) }}</div>
+          <div class="lbl">{{ .Params.cover_label }}</div>
+        </div>
+      </div>
+    {{ end }}
+    {{ .Content }}
+    {{ partial "comments.html" . }}
+  </article>
+  <div></div>
+</div>
+{{ else }}
+<main class="page" style="max-width:720px">
+  {{ partial "post-header.html" (dict "page" . "backUrl" $backUrl "backLabel" $backLabel) }}
+  {{ if .Params.cover }}
+    <div class="post-cover">
+      <img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/>
+    </div>
+  {{ end }}
+  <article class="post-body" style="margin-top:8px">
+    {{ .Content }}
+  </article>
+  {{ partial "comments.html" . }}
+</main>
+{{ end }}
+{{ end }}

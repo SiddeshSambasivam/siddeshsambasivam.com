@@ -1,0 +1,24 @@
+{{- $current := .RelPermalink -}}
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="{{ "/" | relURL }}" class="nav-brand">{{ site.Params.brand | default "sid" }}<span class="dot">.</span></a>
+    <div class="nav-links" data-nav>
+      <span class="nav-pill" aria-hidden="true"></span>
+      {{- range site.Menus.main }}
+        {{- $active := false -}}
+        {{- if eq .URL "/" -}}
+          {{- $active = $.IsHome -}}
+        {{- else -}}
+          {{- $active = or (eq $current .URL) (and (ne .URL "/") (hasPrefix $current .URL)) -}}
+        {{- end -}}
+        <a href="{{ .URL | relURL }}"{{ if $active }} class="active" aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{- end }}
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Toggle theme" data-action="toggle-theme" type="button">
+        <span data-theme-icon="light">{{ partial "icons.html" (dict "name" "moon" "size" 15) }}</span>
+        <span data-theme-icon="dark" hidden>{{ partial "icons.html" (dict "name" "sun" "size" 15) }}</span>
+      </button>
+    </div>
+  </div>
+</nav>

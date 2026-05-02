@@ -1,0 +1,53 @@
+{{- $p := .page -}}
+<div class="post-header">
+  <a href="{{ .backUrl | relURL }}" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} {{ .backLabel }}</a>
+  {{- if or $p.Params.status $p.Params.tags }}
+  <div class="status-row">
+    {{- with $p.Params.status }}
+      <span class="status-pill"><span class="pulse"></span>{{ . }}</span>
+    {{- end }}
+    {{- range $p.Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+  </div>
+  {{- end }}
+  <h1{{ if eq $p.Section "projects" }} class="doc-title"{{ end }}>{{ $p.Title }}</h1>
+  {{- with $p.Params.subtitle }}<p class="doc-sub">{{ . }}</p>{{ end }}
+  {{- if eq $p.Section "writing" }}
+  <div class="meta">
+    <span>{{ $p.Date.Format "January 2, 2006" }}</span>
+    <span>·</span>
+    <span>{{ $p.ReadingTime }} min read</span>
+    <span>·</span>
+    <span>{{ $p.WordCount }} words</span>
+  </div>
+  {{- end }}
+  {{- if eq $p.Section "projects" }}
+    {{- with $p.Params.meta }}
+    <div class="proj-meta">
+      {{- range . }}
+      <div class="proj-meta-cell">
+        <div class="lbl">{{ .label }}</div>
+        <div class="val">{{ .value }}</div>
+      </div>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{- with $p.Params.actions }}
+    <div class="proj-actions">
+      {{- range . }}
+      <a class="btn{{ if .primary }} primary{{ end }}" href="{{ .url }}"{{ if hasPrefix .url "http" }} rel="noopener" target="_blank"{{ end }}>
+        {{ with .icon }}{{ partial "icons.html" (dict "name" . "size" 13) }}{{ end }}
+        {{ .label }}
+      </a>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{- if $p.Params.banner_label }}
+    <div class="proj-banner">
+      <div class="proj-banner-inner">
+        <div class="proj-banner-icon">{{ partial "icons.html" (dict "name" ($p.Params.banner_icon | default "bolt") "size" 18) }}</div>
+        <div class="proj-banner-label">{{ $p.Params.banner_label }}</div>
+      </div>
+    </div>
+    {{- end }}
+  {{- end }}
+</div>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+  {{ block "head" . }}{{ end }}
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  {{ partial "nav.html" . }}
+  <div class="content" id="main">
+    {{ block "main" . }}{{ end }}
+  </div>
+  {{ partial "footer.html" . }}
+  {{- $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint -}}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+  {{ block "scripts" . }}{{ end }}
+</body>
+</html>

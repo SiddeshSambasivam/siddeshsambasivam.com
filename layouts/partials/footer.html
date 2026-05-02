@@ -1,0 +1,15 @@
+{{- $s := site.Params.socials -}}
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© {{ site.Params.copyright_year | default now.Year }} · {{ site.Params.author }}</span>
+    <div class="footer-links">
+      {{- with $s.github }}<a href="{{ . }}" data-tip="GitHub" aria-label="GitHub" rel="me noopener" target="_blank">{{ partial "icons.html" (dict "name" "github") }}</a>{{ end -}}
+      {{- with $s.linkedin }}<a href="{{ . }}" data-tip="LinkedIn" aria-label="LinkedIn" rel="me noopener" target="_blank">{{ partial "icons.html" (dict "name" "linkedin") }}</a>{{ end -}}
+      {{- with $s.x }}<a href="{{ . }}" data-tip="X" aria-label="X" rel="me noopener" target="_blank">{{ partial "icons.html" (dict "name" "x" "size" 13) }}</a>{{ end -}}
+      {{- with $s.scholar }}<a href="{{ . }}" data-tip="Google Scholar" aria-label="Scholar" rel="me noopener" target="_blank">{{ partial "icons.html" (dict "name" "scholar") }}</a>{{ end -}}
+      {{- with $s.garden }}<a href="{{ . }}" data-tip="Digital Garden" aria-label="Garden" rel="me noopener" target="_blank">{{ partial "icons.html" (dict "name" "book") }}</a>{{ end -}}
+      {{- with $s.email }}<a href="{{ . }}" data-tip="Email" aria-label="Email">{{ partial "icons.html" (dict "name" "mail") }}</a>{{ end -}}
+      {{- with $s.rss }}<a href="{{ . }}" data-tip="RSS" aria-label="RSS">{{ partial "icons.html" (dict "name" "rss" "size" 13) }}</a>{{ end -}}
+    </div>
+  </div>
+</footer>

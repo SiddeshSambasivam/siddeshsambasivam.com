@@ -1,0 +1,35 @@
+{{ define "main" }}
+{{- $pages := .RegularPagesRecursive -}}
+{{- if eq .Section "projects" -}}{{- $pages = sort $pages "Weight" -}}{{- end -}}
+<main class="page">
+  <header style="margin-bottom:16px">
+    <h1 style="font-size:1.6rem;font-weight:500;margin-bottom:6px;font-family:var(--serif)">{{ .Title }}</h1>
+    {{ with .Description }}<p style="color:var(--text-soft);max-width:58ch;font-size:0.88rem">{{ . }}</p>{{ end }}
+    {{ .Content }}
+  </header>
+
+  {{ if $pages }}
+  <div class="search" data-search>
+    {{ partial "icons.html" (dict "name" "search" "size" 14) }}
+    <input type="text" placeholder="Search by title, tag, or content" aria-label="Search"/>
+  </div>
+  <div class="feed" data-feed>
+    {{- range $pages }}
+    <a href="{{ or .Params.external_url .RelPermalink }}" class="feed-row" data-feed-row data-search-text="{{ printf "%s %s %s" .Title (delimit .Params.tags " ") .Summary | lower }}" style="grid-template-columns:72px 1fr auto auto 14px;gap:12px"{{ if .Params.external_url }} rel="noopener" target="_blank"{{ end }}>
+      <span class="feed-type">{{ .Params.feed_type | default (cond (eq .Section "garden") "garden" "post") }}</span>
+      <span style="display:flex;flex-direction:column;min-width:0;gap:1px">
+        <span class="feed-title">{{ .Title }}</span>
+        <span style="font-size:0.78rem;color:var(--text-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ .Summary | plainify | truncate 140 }}</span>
+      </span>
+      <span class="feed-tags">{{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}</span>
+      <span class="feed-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+      <span class="feed-arrow">{{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</span>
+    </a>
+    {{- end }}
+  </div>
+  <p data-search-empty hidden style="color:var(--text-mute);padding:40px 0;text-align:center">No posts match your search.</p>
+  {{ else }}
+  <p style="color:var(--text-mute)">Nothing here yet.</p>
+  {{ end }}
+</main>
+{{ end }}

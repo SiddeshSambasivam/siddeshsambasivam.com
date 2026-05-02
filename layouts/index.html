@@ -1,0 +1,135 @@
+{{ define "main" }}
+{{- $projectPages := where (where site.RegularPages "Section" "projects") "Params.featured" "!=" false -}}
+{{- $projectPages = first 6 (sort $projectPages "Weight") -}}
+{{- $writingPages := first 8 (where site.RegularPages "Section" "in" (slice "writing" "posts" "garden")) -}}
+{{- $profileSrc := resources.Get "media/profile.png" -}}
+{{- $profile := ($profileSrc.Fill "320x320 Center webp q82") | resources.Fingerprint -}}
+{{- $profile2x := ($profileSrc.Fill "480x480 Center webp q82") | resources.Fingerprint -}}
+<main class="page">
+  <section class="hero">
+    <div class="hero-avatar">
+      <img src="{{ $profile.RelPermalink }}" srcset="{{ $profile.RelPermalink }} 1x, {{ $profile2x.RelPermalink }} 2x" width="160" height="160" alt="{{ site.Params.author }}" loading="eager"/>
+      <div class="ring"></div>
+    </div>
+    <div class="hero-body">
+      <h1 class="hero-name">
+        {{ site.Params.hero_name }} <span class="wave">{{ site.Params.hero_emoji }}</span>
+      </h1>
+      <p class="hero-tag">{{ site.Params.hero_tagline_html | safeHTML }}</p>
+      {{- with site.Params.hero_bullets }}
+      <ul class="hero-bullets">
+        {{- range . }}<li>{{ . | safeHTML }}</li>{{ end }}
+      </ul>
+      {{- end }}
+      {{ partial "hero-socials.html" . }}
+    </div>
+  </section>
+
+  {{- with site.Data.work }}
+  <section class="section" id="work">
+    <div class="section-head">
+      <h2>Work</h2>
+      {{ with site.Params.resume_url }}<a href="{{ . }}" class="head-link">Resume {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}</a>{{ end }}
+    </div>
+    {{- $workMoreUrl := or site.Params.work_url site.Params.socials.linkedin -}}
+    <div class="timeline" data-timeline>
+      {{- range . }}
+      <div class="tl-item{{ if .current }} current expanded{{ end }}" tabindex="0" role="button" aria-expanded="{{ if .current }}true{{ else }}false{{ end }}">
+        <div class="tl-when">{{ .when }}</div>
+        <div class="tl-rail"><div class="node"></div></div>
+        <div class="tl-body">
+          <div class="tl-role">{{ .role }} · <span style="color:var(--text-soft)">{{ .company }}</span></div>
+          <div class="tl-detail"><div class="tl-detail-inner">
+            {{- with .bullets -}}
+              <ul class="tl-bullets">{{ range . }}<li>{{ . | safeHTML }}</li>{{ end }}</ul>
+            {{- else -}}
+              {{ .detail | safeHTML }}
+            {{- end -}}
+          </div></div>
+        </div>
+        <button class="tl-toggle" data-tip="Toggle" aria-label="Toggle" type="button" tabindex="-1">
+          {{ partial "icons.html" (dict "name" "plus" "size" 11) }}
+        </button>
+      </div>
+      {{- end }}
+    </div>
+    {{- with $workMoreUrl }}
+    <a class="work-more" href="{{ . }}"{{ if hasPrefix . "http" }} rel="noopener" target="_blank"{{ end }}>
+      See the full work history {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}
+    </a>
+    {{- end }}
+  </section>
+  {{- end }}
+
+  {{- if $projectPages }}
+  <section class="section" id="projects">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <a href="{{ "/projects/" | relURL }}" class="head-link">All projects {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
+    </div>
+    <div class="feed">
+      {{- range $projectPages }}
+        {{ partial "feed-row.html" (dict
+          "type" "project"
+          "title" .Title
+          "oneliner" (or .Params.oneliner .Params.subtitle)
+          "url" .RelPermalink
+          "date" (or .Params.date_label (.Date.Format "Jan 02, 2006"))
+          "tags" .Params.tags
+          "icon" .Params.icon
+        ) }}
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if $writingPages }}
+  <section class="section" id="writing">
+    <div class="section-head">
+      <h2>Recent writing</h2>
+      <a href="{{ "/writing/" | relURL }}" class="head-link">All posts {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
+    </div>
+    <div class="feed">
+      {{- range $writingPages }}
+        {{ partial "feed-row.html" (dict
+          "type" (.Params.feed_type | default (cond (eq .Section "garden") "garden" "post"))
+          "title" .Title
+          "oneliner" (or .Params.oneliner .Params.subtitle)
+          "url" (or .Params.external_url .RelPermalink)
+          "external" (ne .Params.external_url nil)
+          "date" (.Date.Format "Jan 02, 2006")
+          "tags" .Params.tags
+          "icon" .Params.icon
+        ) }}
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- with site.Data.publications }}
+  <section class="section" id="publications">
+    <div class="section-head">
+      <h2>Selected publications</h2>
+      {{ with site.Params.socials.scholar }}<a href="{{ . }}" class="head-link" rel="noopener" target="_blank">Google Scholar {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}</a>{{ end }}
+    </div>
+    <div>
+      {{- range . }}
+      <article class="pub">
+        <div class="pub-top">
+          <div class="pub-top-left">
+            <span class="venue">{{ .venue }}</span>
+            <span class="dot-sep" aria-hidden="true">·</span>
+            <span>{{ .date }}</span>
+          </div>
+          {{ with .href }}<a class="pub-read" href="{{ . }}"{{ if hasPrefix . "http" }} rel="noopener" target="_blank"{{ end }}>Read {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}</a>{{ end }}
+        </div>
+        <div class="pub-title"><a href="{{ .href }}"{{ if hasPrefix .href "http" }} rel="noopener" target="_blank"{{ end }}>{{ .title }}</a></div>
+        <div class="pub-abstract">{{ .abstract }}</div>
+        <div class="pub-authors">{{ .authors }}</div>
+      </article>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+</main>
+{{ end }}
