@@ -10,12 +10,28 @@
       el.hidden = el.getAttribute('data-theme-icon') !== t;
     });
   }
+  function syncGiscusTheme(t) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: t === 'dark' ? 'dark' : 'light' } } },
+      'https://giscus.app'
+    );
+  }
   function setTheme(t) {
     root.setAttribute('data-theme', t);
     try { localStorage.setItem('theme', t); } catch (e) {}
     syncThemeIcons();
+    syncGiscusTheme(t);
   }
   syncThemeIcons();
+  // Push the current theme to giscus once its iframe finishes loading.
+  window.addEventListener('message', (e) => {
+    if (e.origin !== 'https://giscus.app') return;
+    if (e.data && e.data.giscus && e.data.giscus.discussion) {
+      syncGiscusTheme(root.getAttribute('data-theme') || 'light');
+    }
+  });
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-action="toggle-theme"]');
     if (!btn) return;
