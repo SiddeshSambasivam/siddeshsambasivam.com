@@ -1,0 +1,14 @@
+{{ define "main" }}
+<main class="page not-found">
+  <div class="nf-inner">
+    <div class="nf-code" aria-hidden="true">404</div>
+    <h1 class="nf-title">This page wandered off</h1>
+    <p class="nf-sub">The link is broken, the post was renamed, or the URL has a typo. Pick a direction and try again.</p>
+    <div class="nf-actions">
+      <a class="btn primary" href="{{ "/" | relURL }}">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Back home</a>
+      <a class="btn" href="{{ "/writing/" | relURL }}">Read the writing</a>
+      <a class="btn" href="{{ "/projects/" | relURL }}">See projects</a>
+    </div>
+  </div>
+</main>
+{{ end }}

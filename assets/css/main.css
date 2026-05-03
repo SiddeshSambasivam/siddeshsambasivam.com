@@ -1839,3 +1839,49 @@ a:hover .tag {
   transition: color 0.18s ease;
 }
 .work-more:hover { color: var(--accent); }
+
+/* ─── 404 page ─── */
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 40px 24px;
+  text-align: center;
+}
+.nf-inner {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.nf-code {
+  font-family: var(--mono);
+  font-size: 4rem;
+  font-weight: 500;
+  color: var(--text-mute);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.nf-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.nf-sub {
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 40ch;
+}
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
+}
