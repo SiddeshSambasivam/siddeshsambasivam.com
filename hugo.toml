@@ -51,6 +51,13 @@ summaryLength = 30
 
   hero_bullets = []
 
+  [params.giscus]
+    repo = "SiddeshSambasivam/siddeshsambasivam.com"
+    repo_id = "R_kgDOSAUb5g"
+    category = "General"
+    category_id = "DIC_kwDOSAUb5s4C8OIU"
+    mapping = "pathname"
+
   # Geo metadata for GEO/local SEO
   [params.geo]
     region = "SG"
