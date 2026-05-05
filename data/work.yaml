@@ -4,7 +4,7 @@
   company: Hypotenuse AI
   current: true
   bullets:
-    - "Own the architecture and direction for Hypotenuse, including the product database, enrichment, and generation systems that handle millions of SKUs every day. Most of my time goes into deciding what to build next and keeping AI and compute costs trending down as we grow."
+    - "Own the architecture and engineering direction, including the product database, enrichment, and generation systems that handle millions of SKUs every day. Most of my time goes into deciding what to build next and keeping AI and compute costs trending down as we grow."
     - "Building the feedback loops and retraining pipelines that turn every correction across Hypotenuse, both explicit edits and implicit signals, into training data for better models over time, along with the internal AI tooling our engineers rely on day to day."
 
 - id: hyp-senior
