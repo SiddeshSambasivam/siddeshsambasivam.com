@@ -91,10 +91,12 @@ summaryLength = 30
     weight = 30
     identifier = "projects"
   [[menu.main]]
-    name = "About"
-    url = "/about/"
+    name = "Notes"
+    url = "https://notes.siddeshsambasivam.com/"
     weight = 40
-    identifier = "about"
+    identifier = "notes"
+    [menu.main.params]
+      external = true
 
 [build]
   writeStats = true
