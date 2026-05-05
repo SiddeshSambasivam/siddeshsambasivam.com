@@ -4,23 +4,23 @@
   company: Hypotenuse AI
   current: true
   bullets:
-    - "Own the technical roadmap and architecture for the product database, enrichment services, generation systems and several other services - scaling infrastructure to handle millions of SKUs daily while actively driving down AI and compute costs."
-    - "Building generation feedback loops, model retraining pipelines, and internal AI tooling to improve engineering velocity and output quality across the team."
+    - "Own the architecture and direction for Hypotenuse, including the product database, enrichment, and generation systems that handle millions of SKUs every day. Most of my time goes into deciding what to build next and keeping AI and compute costs trending down as we grow."
+    - "Building the feedback loops and retraining pipelines that turn every correction across Hypotenuse, both explicit edits and implicit signals, into training data for better models over time, along with the internal AI tooling our engineers rely on day to day."
 
 - id: hyp-senior
   when: "Jan 2025 - Apr 2026"
   role: Senior Software Engineer
   company: Hypotenuse AI
   bullets:
-    - "Architected and shipped the end-to-end product data platform - a multi-tenant product database, agentic web enrichment pipeline, and bulk processing infrastructure capable of enriching 100k+ products reliably at scale with sub-second query latency across 2M+ products."
-    - "Built a canvas-based image editing engine with snapshotting, standard editing operations, and integrated AI image generation models; shipped custom ProseMirror and TipTap nodes with purpose-built interactions for rich content editing."
-    - "Set up robust observability across databases and compute using OpenTelemetry, with monitoring and alerting pipelines wired through AWS Grafana and Prometheus."
+    - "Designed and shipped Hypotenuse's end-to-end product data platform: the multi-tenant database, a web crawler that uses LLMs to enrich new products as they arrive, and the bulk processor that handles 100k+ products in a single run. Today it serves sub-second queries across 2M+ products."
+    - "Built our in-browser image editor from scratch. A canvas engine with undo/redo, the usual editing tools, and AI image generation built in. Also shipped custom ProseMirror and TipTap nodes for the rich-text side of the editor."
+    - "Stood up proper observability across the product. Traces, metrics, and logs through OpenTelemetry, flowing into AWS Grafana and Prometheus, with alerts that page the right person."
 
 - id: hyp-swe
   when: "Jan 2023 - Jan 2025"
   role: Software Engineer
   company: Hypotenuse AI
   bullets:
-    - "Built core AI platform capabilities from the ground up - RAG pipelines, LLM streaming infrastructure, vector database integration, rate-limiting systems for generation and external APIs, and a web crawler that periodically indexes configured domains to surface contextually relevant content ideas."
-    - "Shipped research-grounded blog generation workflows with inline citations, and architected the platform-wide migration from credit-based to word-based pricing to support flexible monetisation across all generation workflows."
-    - "Provisioned multi-region AWS infrastructure via Terraform, reduced image generation costs by 89%, and cut server memory consumption by 99.5% through deep profiling and targeted optimisation."
+    - "Built Hypotenuse's core AI capabilities from a blank slate: RAG pipelines, LLM streaming, the vector store, rate-limiting for generation and third-party APIs, and a crawler that keeps an eye on customer-configured sites to surface fresh content ideas."
+    - "Shipped research-grounded blog workflows with inline citations, and led the platform-wide move from a credit-based pricing model to a word-based one, which touched almost every generation flow we have."
+    - "Provisioned our multi-region AWS infrastructure with Terraform. Cut image generation costs by 89% and server memory by 99.5% through profiling and targeted rewrites."
