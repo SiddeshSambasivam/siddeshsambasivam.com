@@ -1,0 +1,110 @@
+{{ define "main" }}
+{{- $isRoot := eq .Parent.Kind "home" -}}
+<main class="page">
+  {{- if $isRoot }}
+    {{- /* Top-level /logs/ — grid of logbooks */ -}}
+    <header style="margin-bottom:20px">
+      <h1 style="font-size:1.6rem;font-weight:500;margin-bottom:6px;font-family:var(--serif)">{{ .Title }}</h1>
+      {{ with .Description }}<p style="color:var(--text-soft);max-width:58ch;font-size:0.88rem">{{ . }}</p>{{ end }}
+      {{ .Content }}
+    </header>
+    {{- $books := .Sections }}
+    {{- if $books }}
+    <div class="logbook-grid">
+      {{- range (sort $books "Params.weight") }}
+      {{- $entries := .RegularPages }}
+      {{- $latest := index $entries 0 }}
+      <a href="{{ .RelPermalink }}" class="logbook-card">
+        <div class="logbook-card-head">
+          <span class="logbook-card-icon">{{ partial "icons.html" (dict "name" (.Params.icon | default "book") "size" 16) }}</span>
+          {{- with .Params.status }}<span class="status-pill"><span class="pulse"></span>{{ . }}</span>{{ end }}
+        </div>
+        <div class="logbook-card-title">{{ .Title }}</div>
+        {{- with .Params.oneliner }}<div class="logbook-card-sub">{{ . }}</div>{{ end }}
+        <div class="logbook-card-foot">
+          <span>{{ len $entries }} {{ if eq (len $entries) 1 }}entry{{ else }}entries{{ end }}</span>
+          {{- with $latest }}
+            <span class="dot-sep" aria-hidden="true">·</span>
+            <span>Last: {{ .Date.Format "Jan 02, 2006" }}</span>
+          {{- end }}
+        </div>
+      </a>
+      {{- end }}
+    </div>
+    {{- else }}
+    <p style="color:var(--text-mute)">No logbooks yet.</p>
+    {{- end }}
+  {{- else }}
+    {{- /* Per-logbook page — header + chronological entry timeline */ -}}
+    {{- $entries := sort .RegularPages "Date" "desc" }}
+    <div class="post-header">
+      <a href="{{ "/logs/" | relURL }}" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Back to logbooks</a>
+      {{- if or .Params.status .Params.tags }}
+      <div class="status-row">
+        {{- with .Params.status }}<span class="status-pill"><span class="pulse"></span>{{ . }}</span>{{ end }}
+        {{- range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+      {{- end }}
+      <h1 class="doc-title">{{ .Title }}</h1>
+      {{- with .Params.subtitle }}<p class="doc-sub">{{ . }}</p>{{ end }}
+      {{- with .Params.meta }}
+      <div class="proj-meta">
+        {{- range . }}
+        <div class="proj-meta-cell">
+          <div class="lbl">{{ .label }}</div>
+          <div class="val">{{ .value }}</div>
+        </div>
+        {{- end }}
+      </div>
+      {{- end }}
+      {{- with .Params.actions }}
+      <div class="proj-actions">
+        {{- range . }}
+        <a class="btn{{ if .primary }} primary{{ end }}" href="{{ .url }}"{{ if hasPrefix .url "http" }} rel="noopener" target="_blank"{{ end }}>
+          {{ with .icon }}{{ partial "icons.html" (dict "name" . "size" 13) }}{{ end }}
+          {{ .label }}
+        </a>
+        {{- end }}
+      </div>
+      {{- end }}
+    </div>
+
+    {{- with .Content }}
+    <article class="post-body" style="margin-top:8px;max-width:720px">
+      {{ . }}
+    </article>
+    {{- end }}
+
+    <section class="logbook-entries" style="margin-top:28px">
+      <div class="section-head"><h2>Entries</h2><span style="color:var(--text-mute);font-size:0.85rem">{{ len $entries }} total</span></div>
+      {{- if $entries }}
+      <ol class="log-timeline">
+        {{- range $entries }}
+        <li class="log-item">
+          <a href="{{ .RelPermalink }}" class="log-link">
+            <div class="log-when">
+              <span class="log-date">{{ .Date.Format "Jan 02" }}</span>
+              <span class="log-year">{{ .Date.Format "2006" }}</span>
+            </div>
+            <div class="log-rail"><span class="log-node"></span></div>
+            <div class="log-body">
+              <div class="log-title">
+                {{- with .Params.entry }}<span class="log-num">#{{ . }}</span>{{ end }}
+                {{ .Title }}
+              </div>
+              {{- with .Summary }}<div class="log-summary">{{ . | plainify | truncate 200 }}</div>{{ end }}
+              {{- with .Params.tags }}
+              <div class="log-tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
+              {{- end }}
+            </div>
+          </a>
+        </li>
+        {{- end }}
+      </ol>
+      {{- else }}
+      <p style="color:var(--text-mute)">No entries yet.</p>
+      {{- end }}
+    </section>
+  {{- end }}
+</main>
+{{ end }}

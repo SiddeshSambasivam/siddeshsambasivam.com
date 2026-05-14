@@ -96,6 +96,11 @@ summaryLength = 30
     weight = 30
     identifier = "projects"
   [[menu.main]]
+    name = "Logs"
+    url = "/logs/"
+    weight = 35
+    identifier = "logs"
+  [[menu.main]]
     name = "Notes"
     url = "https://notes.siddeshsambasivam.com/"
     weight = 40

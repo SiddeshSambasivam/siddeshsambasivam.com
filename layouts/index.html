@@ -2,6 +2,7 @@
 {{- $projectPages := where (where site.RegularPages "Section" "projects") "Params.featured" "!=" false -}}
 {{- $projectPages = first 6 (sort $projectPages "Weight") -}}
 {{- $writingPages := first 8 (where site.RegularPages "Section" "in" (slice "writing" "posts" "garden")) -}}
+{{- $logEntries := first 5 (where site.RegularPages "Section" "logs") -}}
 {{- $profileSrc := resources.Get "media/profile.png" -}}
 {{- $profile := ($profileSrc.Fill "320x320 Center webp q82") | resources.Fingerprint -}}
 {{- $profile2x := ($profileSrc.Fill "480x480 Center webp q82") | resources.Fingerprint -}}
@@ -77,6 +78,29 @@
           "date" (or .Params.date_label (.Date.Format "Jan 02, 2006"))
           "tags" .Params.tags
           "icon" .Params.icon
+        ) }}
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if $logEntries }}
+  <section class="section" id="logs">
+    <div class="section-head">
+      <h2>Build &amp; learn in public</h2>
+      <a href="{{ "/logs/" | relURL }}" class="head-link">All logbooks {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
+    </div>
+    <div class="feed">
+      {{- range $logEntries }}
+        {{- $book := .Parent }}
+        {{ partial "feed-row.html" (dict
+          "type" $book.Title
+          "title" .Title
+          "oneliner" (or .Params.oneliner (.Summary | plainify | truncate 140))
+          "url" .RelPermalink
+          "date" (.Date.Format "Jan 02, 2006")
+          "tags" .Params.tags
+          "icon" "book"
         ) }}
       {{- end }}
     </div>
