@@ -9,13 +9,18 @@ icon: book
 cover_label: "example · logbook"
 cover_icon: book
 weight: 10
-draft: true
+draft: false
 meta:
   - { label: "Started", value: "May 2026" }
   - { label: "Cadence", value: "Weekly" }
   - { label: "Source", value: "Self-paced" }
 actions:
-  - { label: "Course page", url: "https://example.com/", icon: "arrow", primary: true }
+  - {
+      label: "Course page",
+      url: "https://example.com/",
+      icon: "arrow",
+      primary: true,
+    }
 ---
 
 A few sentences about the goal of this logbook — what you're building or
