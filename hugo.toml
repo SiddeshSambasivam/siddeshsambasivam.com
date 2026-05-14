@@ -14,8 +14,13 @@ summaryLength = 30
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [['\[', '\]'], ['$$', '$$']]
+      inline = [['\(', '\)']]
   [markup.highlight]
-    noClasses = false
+    noClasses = true
     style = "github"
     lineNos = false
     tabWidth = 2

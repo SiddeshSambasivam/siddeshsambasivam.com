@@ -1066,6 +1066,22 @@ button {
 	font-family: "Latin Modern Math", "Cambria Math", "Times New Roman", serif;
 	font-style: italic;
 }
+.post-body pre.mermaid {
+	background: var(--bg-elev);
+	border: 1px solid var(--border);
+	display: flex;
+	justify-content: center;
+	padding: 16px;
+	overflow-x: auto;
+}
+.post-body pre.mermaid:not([data-processed]) { color: var(--text-mute); }
+.post-body .katex-display {
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 4px 0;
+	margin: 14px 0;
+}
+.post-body .katex { font-size: 1em; }
 .post-body .latex-block {
 	display: block;
 	text-align: center;
