@@ -61,28 +61,6 @@
   </section>
   {{- end }}
 
-  {{- if $projectPages }}
-  <section class="section" id="projects">
-    <div class="section-head">
-      <h2>Selected work</h2>
-      <a href="{{ "/projects/" | relURL }}" class="head-link">All projects {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
-    </div>
-    <div class="feed">
-      {{- range $projectPages }}
-        {{ partial "feed-row.html" (dict
-          "type" "project"
-          "title" .Title
-          "oneliner" (or .Params.oneliner .Params.subtitle)
-          "url" .RelPermalink
-          "date" (or .Params.date_label (.Date.Format "Jan 02, 2006"))
-          "tags" .Params.tags
-          "icon" .Params.icon
-        ) }}
-      {{- end }}
-    </div>
-  </section>
-  {{- end }}
-
   {{- if $writingPages }}
   <section class="section" id="writing">
     <div class="section-head">
@@ -103,6 +81,28 @@
           </span>
           <span class="mini-feed-date">{{ .Date.Format "Jan 02" }}</span>
         </a>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if $projectPages }}
+  <section class="section" id="projects">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <a href="{{ "/projects/" | relURL }}" class="head-link">All projects {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
+    </div>
+    <div class="feed">
+      {{- range $projectPages }}
+        {{ partial "feed-row.html" (dict
+          "type" "project"
+          "title" .Title
+          "oneliner" (or .Params.oneliner .Params.subtitle)
+          "url" .RelPermalink
+          "date" (or .Params.date_label (.Date.Format "Jan 02, 2006"))
+          "tags" .Params.tags
+          "icon" .Params.icon
+        ) }}
       {{- end }}
     </div>
   </section>
