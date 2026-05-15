@@ -1,4 +1,6 @@
-{{- /* Renders fenced ```mermaid blocks. Set `mermaid: true` in frontmatter to load the renderer. */ -}}
+{{- /* Renders fenced ```mermaid blocks and auto-flags the page so the
+       renderer script loads (see partials/math-mermaid.html). */ -}}
+{{- .Page.Store.Set "hasMermaid" true -}}
 <pre class="mermaid">
 {{- .Inner | safeHTML -}}
 </pre>
