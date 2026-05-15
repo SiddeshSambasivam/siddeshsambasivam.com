@@ -8,7 +8,6 @@ summaryLength = 30
 
 # Pretty URLs, no ugly extensions
 [permalinks]
-  writing = "/writing/:filename/"
   projects = "/projects/:filename/"
 
 [markup]
@@ -96,11 +95,6 @@ summaryLength = 30
     url = "/projects/"
     weight = 30
     identifier = "projects"
-  [[menu.main]]
-    name = "Logs"
-    url = "/logs/"
-    weight = 35
-    identifier = "logs"
   [[menu.main]]
     name = "Notes"
     url = "https://notes.siddeshsambasivam.com/"

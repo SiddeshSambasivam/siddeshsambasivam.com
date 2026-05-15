@@ -1,4 +1,4 @@
 ---
 title: "Writing"
-description: "Notes on the systems and ML problems I am working on. Roughly fortnightly."
+description: "Build, learn, and write in public — standalone posts and ongoing series on the systems, ML, and projects I'm working on."
 ---

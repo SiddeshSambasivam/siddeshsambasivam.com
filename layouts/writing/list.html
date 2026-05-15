@@ -1,0 +1,184 @@
+{{ define "main" }}
+{{- $isRoot := eq .Parent.Kind "home" -}}
+<main class="page">
+  {{- if $isRoot }}
+    {{- /* Top-level /writing/ — series blocks first, then standalone posts */ -}}
+    <header style="margin-bottom:20px">
+      <h1 style="font-size:1.6rem;font-weight:500;margin-bottom:6px;font-family:var(--serif)">{{ .Title }}</h1>
+      {{ with .Description }}<p style="color:var(--text-soft);max-width:58ch;font-size:0.88rem">{{ . }}</p>{{ end }}
+      {{ .Content }}
+    </header>
+
+    {{- $series := .Sections }}
+    {{- $posts := .RegularPages }}
+
+    {{- if or $series $posts }}
+    <div class="search" data-search>
+      {{ partial "icons.html" (dict "name" "search" "size" 14) }}
+      <input type="text" placeholder="Search posts and series" aria-label="Search"/>
+    </div>
+    {{- end }}
+
+    {{- if $series }}
+    <section data-search-section>
+    <div class="section-head" style="margin-top:8px"><h2>Series</h2><span style="color:var(--text-mute);font-size:0.78rem">Ongoing logbooks — projects, courses, deep-dives</span></div>
+    <div class="logbook-list logbook-grid-2col" data-search-group>
+      {{- range (sort $series "Params.weight") }}
+      {{- $book := . }}
+      {{- $entries := first 5 (sort .RegularPages "Date" "desc") }}
+      {{- $total := len .RegularPages }}
+      {{- $bookHay := printf "%s %s %s" .Title (or .Params.oneliner "") (delimit .Params.tags " ") | lower }}
+      <article class="logbook-block" data-search-block data-search-block-text="{{ $bookHay }}">
+        <header class="logbook-block-head">
+          <a href="{{ $book.RelPermalink }}" class="logbook-block-title-link">
+            <span class="logbook-card-icon">{{ partial "icons.html" (dict "name" (.Params.icon | default "book") "size" 16) }}</span>
+            <span class="logbook-block-title">{{ .Title }}</span>
+            {{- with .Params.status }}<span class="status-pill"><span class="pulse"></span>{{ . }}</span>{{ end }}
+          </a>
+          <div class="logbook-block-head-right">
+            {{ partial "series-project-chip.html" $book }}
+            <a href="{{ $book.RelPermalink }}" class="head-link">
+              {{ $total }} {{ if eq $total 1 }}entry{{ else }}entries{{ end }} {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}
+            </a>
+          </div>
+        </header>
+        {{- with .Params.oneliner }}<p class="logbook-block-sub">{{ . }}</p>{{ end }}
+        {{- if $entries }}
+        <ol class="log-timeline log-timeline-compact">
+          {{- range $entries }}
+          {{- $hay := printf "%s %s %s %s" .Title $bookHay (delimit .Params.tags " ") (.Summary | plainify) | lower }}
+          <li class="log-item" data-feed-row data-search-text="{{ $hay }}">
+            <a href="{{ .RelPermalink }}" class="log-link">
+              <div class="log-when">
+                <span class="log-date">{{ .Date.Format "Jan 02" }}</span>
+                <span class="log-year">{{ .Date.Format "2006" }}</span>
+              </div>
+              <div class="log-rail"><span class="log-node"></span></div>
+              <div class="log-body">
+                <div class="log-title">
+                  {{- with .Params.entry }}<span class="log-num">#{{ . }}</span>{{ end }}
+                  <span class="log-title-text">{{ .Title }}</span>
+                </div>
+                {{- with (or .Params.oneliner (.Summary | plainify | truncate 160)) }}
+                <div class="log-summary">{{ . }}</div>
+                {{- end }}
+              </div>
+            </a>
+          </li>
+          {{- end }}
+        </ol>
+        {{- if gt $total 5 }}
+        <a href="{{ $book.RelPermalink }}" class="logbook-block-more">
+          See {{ sub $total 5 }} more {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}
+        </a>
+        {{- end }}
+        {{- else }}
+        <p style="color:var(--text-mute);font-size:0.85rem;padding:8px 0">No entries yet.</p>
+        {{- end }}
+      </article>
+      {{- end }}
+    </div>
+    </section>
+    {{- end }}
+
+    {{- if $posts }}
+    <section data-search-section>
+    <div class="section-head" style="margin-top:32px"><h2>Posts</h2><span style="color:var(--text-mute);font-size:0.78rem">Standalone notes, postmortems, and essays</span></div>
+    <div class="feed" data-search-group>
+      {{- range $posts }}
+      <a href="{{ or .Params.external_url .RelPermalink }}" class="feed-row" data-feed-row data-search-text="{{ printf "%s %s %s" .Title (delimit .Params.tags " ") .Summary | lower }}" style="grid-template-columns:72px 1fr auto auto 14px;gap:12px"{{ if .Params.external_url }} rel="noopener" target="_blank"{{ end }}>
+        <span class="feed-type">{{ .Params.feed_type | default "post" }}</span>
+        <span style="display:flex;flex-direction:column;min-width:0;gap:1px">
+          <span class="feed-title">{{ .Title }}</span>
+          <span style="font-size:0.78rem;color:var(--text-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ or .Params.oneliner (.Summary | plainify | truncate 140) }}</span>
+        </span>
+        <span class="feed-tags">{{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}</span>
+        <span class="feed-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+        <span class="feed-arrow">{{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</span>
+      </a>
+      {{- end }}
+    </div>
+    </section>
+    {{- end }}
+
+    <p data-search-empty hidden style="color:var(--text-mute);padding:40px 0;text-align:center">Nothing matches your search.</p>
+
+    {{- if and (not $series) (not $posts) }}
+    <p style="color:var(--text-mute)">Nothing here yet.</p>
+    {{- end }}
+  {{- else }}
+    {{- /* Per-series page — header + chronological entry timeline */ -}}
+    {{- $entries := sort .RegularPages "Date" "desc" }}
+    <div class="post-header">
+      <a href="{{ "/writing/" | relURL }}" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Back to writing</a>
+      {{- if or .Params.status .Params.tags }}
+      <div class="status-row">
+        {{- with .Params.status }}<span class="status-pill"><span class="pulse"></span>{{ . }}</span>{{ end }}
+        {{- range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+      {{- end }}
+      <h1 class="doc-title">{{ .Title }}</h1>
+      {{- with .Params.subtitle }}<p class="doc-sub">{{ . }}</p>{{ end }}
+      {{- $chip := partial "series-project-chip.html" . -}}
+      {{- with $chip }}<div style="margin-top:8px">{{ . }}</div>{{ end }}
+      {{- with .Params.meta }}
+      <div class="proj-meta">
+        {{- range . }}
+        <div class="proj-meta-cell">
+          <div class="lbl">{{ .label }}</div>
+          <div class="val">{{ .value }}</div>
+        </div>
+        {{- end }}
+      </div>
+      {{- end }}
+      {{- with .Params.actions }}
+      <div class="proj-actions">
+        {{- range . }}
+        <a class="btn{{ if .primary }} primary{{ end }}" href="{{ .url }}"{{ if hasPrefix .url "http" }} rel="noopener" target="_blank"{{ end }}>
+          {{ with .icon }}{{ partial "icons.html" (dict "name" . "size" 13) }}{{ end }}
+          {{ .label }}
+        </a>
+        {{- end }}
+      </div>
+      {{- end }}
+    </div>
+
+    {{- with .Content }}
+    <article class="post-body" style="margin-top:8px">
+      {{ . }}
+    </article>
+    {{- end }}
+
+    <section class="logbook-entries" style="margin-top:28px">
+      <div class="section-head"><h2>Entries</h2><span style="color:var(--text-mute);font-size:0.85rem">{{ len $entries }} total</span></div>
+      {{- if $entries }}
+      <ol class="log-timeline">
+        {{- range $entries }}
+        <li class="log-item">
+          <a href="{{ .RelPermalink }}" class="log-link">
+            <div class="log-when">
+              <span class="log-date">{{ .Date.Format "Jan 02" }}</span>
+              <span class="log-year">{{ .Date.Format "2006" }}</span>
+            </div>
+            <div class="log-rail"><span class="log-node"></span></div>
+            <div class="log-body">
+              <div class="log-title">
+                {{- with .Params.entry }}<span class="log-num">#{{ . }}</span>{{ end }}
+                {{ .Title }}
+              </div>
+              {{- with .Summary }}<div class="log-summary">{{ . | plainify | truncate 200 }}</div>{{ end }}
+              {{- with .Params.tags }}
+              <div class="log-tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
+              {{- end }}
+            </div>
+          </a>
+        </li>
+        {{- end }}
+      </ol>
+      {{- else }}
+      <p style="color:var(--text-mute)">No entries yet.</p>
+      {{- end }}
+    </section>
+  {{- end }}
+</main>
+{{ end }}

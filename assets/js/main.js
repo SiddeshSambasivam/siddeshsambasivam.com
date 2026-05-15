@@ -65,19 +65,45 @@
 
   // ─── List page search ──────────────────────────────────
   document.querySelectorAll('[data-search] input').forEach((input) => {
-    const feed = document.querySelector('[data-feed]');
+    const rows = document.querySelectorAll('[data-feed-row]');
+    if (!rows.length) return;
+    const blocks = document.querySelectorAll('[data-search-block]');
+    const groups = document.querySelectorAll('[data-search-group]');
     const empty = document.querySelector('[data-search-empty]');
-    if (!feed) return;
     input.addEventListener('input', () => {
       const q = input.value.trim().toLowerCase();
-      let visible = 0;
-      feed.querySelectorAll('[data-feed-row]').forEach((row) => {
+      let visibleRows = 0;
+      // Per-row matching across the page
+      rows.forEach((row) => {
         const hay = row.getAttribute('data-search-text') || '';
         const match = !q || hay.indexOf(q) !== -1;
         row.style.display = match ? '' : 'none';
-        if (match) visible++;
+        if (match) visibleRows++;
       });
-      if (empty) empty.hidden = visible !== 0;
+      // A series block stays visible if its own metadata matches OR any of its rows match
+      blocks.forEach((block) => {
+        if (!q) { block.style.display = ''; return; }
+        const blockHay = block.getAttribute('data-search-block-text') || '';
+        const blockMatch = blockHay.indexOf(q) !== -1;
+        const anyRowVisible = Array.from(block.querySelectorAll('[data-feed-row]')).some((r) => r.style.display !== 'none');
+        const show = blockMatch || anyRowVisible;
+        block.style.display = show ? '' : 'none';
+        // If the block matched as a whole, surface all its rows
+        if (blockMatch && !anyRowVisible) {
+          block.querySelectorAll('[data-feed-row]').forEach((r) => { r.style.display = ''; visibleRows++; });
+        }
+      });
+      // Hide a group entirely if none of its rows or blocks are visible
+      groups.forEach((group) => {
+        const anyVisible = Array.from(group.children).some((c) => c.style.display !== 'none');
+        group.style.display = anyVisible ? '' : 'none';
+      });
+      // Hide a section (header + group) if none of its rows or blocks are visible
+      document.querySelectorAll('[data-search-section]').forEach((section) => {
+        const anyVisible = section.querySelectorAll('[data-feed-row]:not([style*="display: none"]), [data-search-block]:not([style*="display: none"])').length > 0;
+        section.style.display = anyVisible || !q ? '' : 'none';
+      });
+      if (empty) empty.hidden = visibleRows !== 0;
     });
   });
 
