@@ -20,8 +20,9 @@ summaryLength = 30
       block = [['\[', '\]'], ['$$', '$$']]
       inline = [['\(', '\)']]
   [markup.highlight]
-    noClasses = true
+    noClasses = false
     style = "github"
+    guessSyntax = true
     lineNos = false
     tabWidth = 2
   [markup.tableOfContents]

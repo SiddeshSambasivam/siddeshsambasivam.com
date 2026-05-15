@@ -1055,6 +1055,21 @@ button {
 	line-height: 1.55;
 	margin: 14px 0;
 }
+.post-body pre.chroma {
+	background: #fff;
+	border: 1px solid var(--border);
+	border-radius: var(--r-md);
+	padding: 12px 14px;
+	overflow-x: auto;
+	font-family: var(--mono);
+	font-size: 0.78rem;
+	line-height: 1.55;
+	margin: 14px 0;
+}
+[data-theme="dark"] .post-body pre.chroma {
+	background: #0d1117;
+	border-color: #30363d;
+}
 .post-body pre code {
 	background: none;
 	border: 0;
