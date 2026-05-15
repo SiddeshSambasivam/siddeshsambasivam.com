@@ -87,20 +87,22 @@
   <section class="section" id="writing">
     <div class="section-head">
       <h2>Recent writing</h2>
-      <a href="{{ "/writing/" | relURL }}" class="head-link">All posts {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
+      <a href="{{ "/writing/" | relURL }}" class="head-link">All writing {{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</a>
     </div>
-    <div class="feed">
+    <div class="mini-feed">
       {{- range $writingPages }}
-        {{ partial "feed-row.html" (dict
-          "type" (.Params.feed_type | default (cond (eq .Section "garden") "garden" "post"))
-          "title" .Title
-          "oneliner" (or .Params.oneliner .Params.subtitle)
-          "url" (or .Params.external_url .RelPermalink)
-          "external" (ne .Params.external_url nil)
-          "date" (.Date.Format "Jan 02, 2006")
-          "tags" .Params.tags
-          "icon" .Params.icon
-        ) }}
+        {{- $parent := .Parent -}}
+        {{- $inSeries := and (eq $parent.Kind "section") (ne $parent.RelPermalink "/writing/") -}}
+        {{- $type := .Params.feed_type | default (cond (eq .Section "garden") "garden" "post") -}}
+        {{- if $inSeries }}{{ $type = $parent.Title }}{{ end }}
+        <a href="{{ or .Params.external_url .RelPermalink }}" class="mini-feed-row"{{ if .Params.external_url }} rel="noopener" target="_blank"{{ end }}>
+          <span class="mini-feed-type">{{ $type }}</span>
+          <span class="mini-feed-body">
+            <span class="mini-feed-title">{{ .Title }}</span>
+            {{- with (or .Params.oneliner .Params.subtitle) }}<span class="mini-feed-sub">{{ . | plainify | truncate 110 }}</span>{{ end }}
+          </span>
+          <span class="mini-feed-date">{{ .Date.Format "Jan 02" }}</span>
+        </a>
       {{- end }}
     </div>
   </section>

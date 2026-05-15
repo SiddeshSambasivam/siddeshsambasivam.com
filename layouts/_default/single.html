@@ -25,6 +25,7 @@
         </div>
       </div>
     {{ end }}
+    {{ if eq .Section "projects" }}{{ partial "project-series.html" . }}{{ end }}
     {{ .Content }}
     {{ partial "comments.html" . }}
   </article>
@@ -38,6 +39,7 @@
       <img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/>
     </div>
   {{ end }}
+  {{ if eq .Section "projects" }}{{ partial "project-series.html" . }}{{ end }}
   <article class="post-body" style="margin-top:8px">
     {{ .Content }}
   </article>

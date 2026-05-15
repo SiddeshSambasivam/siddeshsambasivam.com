@@ -1,0 +1,97 @@
+{{ define "main" }}
+{{- $series := .Parent -}}
+{{- $inSeries := and (eq $series.Kind "section") (ne $series.RelPermalink "/writing/") -}}
+
+{{- if $inSeries -}}
+  {{- /* Series entry — back link to series, prev/next nav */ -}}
+  {{- $entries := sort $series.RegularPages "Date" "asc" -}}
+  {{- $prev := "" -}}{{- $next := "" -}}{{- $found := false -}}
+  {{- range $entries -}}
+    {{- if $found -}}
+      {{- if not $next -}}{{- $next = . -}}{{- end -}}
+    {{- else if eq .RelPermalink $.RelPermalink -}}
+      {{- $found = true -}}
+    {{- else -}}
+      {{- $prev = . -}}
+    {{- end -}}
+  {{- end -}}
+  <main class="page" style="max-width:720px">
+    <div class="post-header">
+      <a href="{{ $series.RelPermalink }}" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} {{ $series.Title }}</a>
+      {{- if .Params.tags }}
+      <div class="status-row">
+        {{- range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+      {{- end }}
+      <h1>
+        {{- with .Params.entry }}<span class="log-num" style="margin-right:8px">#{{ . }}</span>{{ end }}
+        {{ .Title }}
+      </h1>
+      <div class="meta">
+        <span>{{ .Date.Format "January 2, 2006" }}</span>
+        <span>·</span>
+        <span>{{ .ReadingTime }} min read</span>
+        <span>·</span>
+        <a href="{{ $series.RelPermalink }}" style="color:var(--text-mute)">{{ $series.Title }}</a>
+      </div>
+    </div>
+    <article class="post-body" style="margin-top:8px">
+      {{ .Content }}
+    </article>
+
+    {{- if or $prev $next }}
+    <nav class="log-nav">
+      <div>
+        {{- with $prev }}
+        <a href="{{ .RelPermalink }}" class="log-nav-link">
+          <span class="log-nav-dir">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Previous</span>
+          <span class="log-nav-title">{{ .Title }}</span>
+        </a>
+        {{- end }}
+      </div>
+      <div style="text-align:right">
+        {{- with $next }}
+        <a href="{{ .RelPermalink }}" class="log-nav-link">
+          <span class="log-nav-dir">Next {{ partial "icons.html" (dict "name" "arrow" "size" 12) }}</span>
+          <span class="log-nav-title">{{ .Title }}</span>
+        </a>
+        {{- end }}
+      </div>
+    </nav>
+    {{- end }}
+
+    {{ partial "comments.html" . }}
+  </main>
+{{- else -}}
+  {{- /* Standalone writing post — same shape as the default single layout */ -}}
+  {{- $hasToc := and (gt (len .TableOfContents) 50) (ne .Params.toc false) -}}
+  {{ if $hasToc }}
+  <div class="post-layout">
+    <aside class="post-toc">
+      <div class="post-toc-title">On this page</div>
+      {{ .TableOfContents }}
+    </aside>
+    <article class="post-body">
+      {{ partial "post-header.html" (dict "page" . "backUrl" "/writing/" "backLabel" "Back to writing") }}
+      {{ if .Params.cover }}
+        <div class="post-cover"><img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/></div>
+      {{ end }}
+      {{ .Content }}
+      {{ partial "comments.html" . }}
+    </article>
+    <div></div>
+  </div>
+  {{ else }}
+  <main class="page" style="max-width:720px">
+    {{ partial "post-header.html" (dict "page" . "backUrl" "/writing/" "backLabel" "Back to writing") }}
+    {{ if .Params.cover }}
+      <div class="post-cover"><img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/></div>
+    {{ end }}
+    <article class="post-body" style="margin-top:8px">
+      {{ .Content }}
+    </article>
+    {{ partial "comments.html" . }}
+  </main>
+  {{ end }}
+{{- end -}}
+{{ end }}

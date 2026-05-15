@@ -8,15 +8,20 @@ summaryLength = 30
 
 # Pretty URLs, no ugly extensions
 [permalinks]
-  writing = "/writing/:filename/"
   projects = "/projects/:filename/"
 
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [['\[', '\]'], ['$$', '$$']]
+      inline = [['\(', '\)']]
   [markup.highlight]
     noClasses = false
     style = "github"
+    guessSyntax = true
     lineNos = false
     tabWidth = 2
   [markup.tableOfContents]

@@ -1,0 +1,15 @@
+{{- /* Renders a "from <project>" chip if the page has a `project` param.
+       Accepts either a path ("/projects/matterix/") or a slug ("matterix").
+       Silently skips if the project page can't be resolved. */ -}}
+{{- $ref := .Params.project -}}
+{{- if $ref -}}
+  {{- if not (hasPrefix $ref "/") -}}{{- $ref = printf "/projects/%s" $ref -}}{{- end -}}
+  {{- $proj := site.GetPage $ref -}}
+  {{- with $proj -}}
+    <a class="logbook-project-chip" href="{{ .RelPermalink }}" title="Project: {{ .Title }}">
+      {{ partial "icons.html" (dict "name" (.Params.icon | default "sparks") "size" 11) }}
+      <span class="logbook-project-chip-label">from</span>
+      <span class="logbook-project-chip-name">{{ .Title }}</span>
+    </a>
+  {{- end -}}
+{{- end -}}
