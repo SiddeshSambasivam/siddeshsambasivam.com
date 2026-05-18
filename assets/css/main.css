@@ -2090,6 +2090,8 @@ a:hover .tag {
   border-radius: 8px;
   background: var(--bg-elev);
   padding: 12px 14px 10px;
+  min-width: 0;
+  overflow: hidden;
 }
 .logbook-block-head {
   display: flex;
@@ -2111,7 +2113,10 @@ a:hover .tag {
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text);
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
+.logbook-block-title-link { min-width: 0; flex: 1 1 auto; }
 .logbook-block-head .logbook-card-icon {
   width: 22px;
   height: 22px;
@@ -2168,7 +2173,7 @@ a:hover .tag {
   margin-top: 2px;
 }
 .logbook-block-more:hover { color: var(--text); }
-.logbook-block-head-right { display: inline-flex; align-items: center; gap: 10px; }
+.logbook-block-head-right { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .logbook-block-head .head-link { border: 0; }
 .logbook-block-head .head-link:hover { color: var(--text); }
 .logbook-block-title-link:hover { color: var(--text); }
