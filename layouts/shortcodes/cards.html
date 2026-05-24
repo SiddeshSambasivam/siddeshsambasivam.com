@@ -1,0 +1,2 @@
+{{- $cols := .Get "cols" -}}
+<div class="cards"{{ with $cols }} data-cols="{{ . }}"{{ end }}>{{ .Inner | safeHTML }}</div>

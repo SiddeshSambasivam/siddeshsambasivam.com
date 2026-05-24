@@ -1,0 +1,9 @@
+{{- $id := .Get 0 -}}
+{{- $refs := .Page.Params.references -}}
+{{- $idx := 0 -}}
+{{- range $i, $r := $refs -}}
+  {{- if eq (index $r "id") $id -}}{{- $idx = add $i 1 -}}{{- end -}}
+{{- end -}}
+{{- if eq $idx 0 -}}<span class="ref-cite" title="missing ref: {{ $id }}">[?]</span>
+{{- else -}}<a class="ref-cite" href="#ref-{{ $id }}">[{{ $idx }}]</a>
+{{- end -}}

@@ -1,0 +1,5 @@
+{{- $n := .Get "n" | default "2" -}}
+{{- $wide := .Get "wide" -}}
+<div class="cols{{ if $wide }} doc-wide{{ end }}" style="--cols:{{ $n }}">
+{{ .Inner }}
+</div>

@@ -1,0 +1,40 @@
+{{- $data := .Page.Params.methods_map -}}
+{{- $xlabel := .Get "xlabel" | default "← Fewer weights modified · More weights modified →" -}}
+{{- $ylabel := .Get "ylabel" | default "Supervised → RL signal" -}}
+{{- $title  := .Get "title"  | default "Technique landscape" -}}
+{{- $wide   := .Get "wide"   | default "true" -}}
+{{- if not $data -}}<div class="callout" data-type="warn"><div class="callout-body">methods-map: <code>methods_map</code> missing in frontmatter</div></div>
+{{- else -}}
+<figure class="methods-map{{ if eq $wide "true" }} doc-wide{{ end }}">
+  {{- with $title }}<figcaption class="mm-title">{{ . }}</figcaption>{{ end }}
+  <div class="mm-frame">
+    <div class="mm-ylabel">{{ $ylabel }}</div>
+    <div class="mm-canvas" role="list" aria-label="Post-training techniques plotted by weights modified and training signal">
+      {{- range $i, $m := $data }}
+      <button type="button"
+              class="mm-pill"
+              role="listitem"
+              data-color="{{ index $m "color" | default "blue" }}"
+              data-name="{{ index $m "name" }}"
+              data-desc="{{ index $m "desc" }}"
+              data-type="{{ index $m "type" | default "" }}"
+              {{- /* map 0..1 → 15%..85% so the pill (with its half-size) always sits inside the canvas */ -}}
+              {{- $x := add 15.0 (mul (float (index $m "px")) 70.0) -}}
+              {{- $y := sub 85.0 (mul (float (index $m "py")) 70.0) -}}
+              style="left:{{ printf "%.2f" $x }}%; top:{{ printf "%.2f" $y }}%"
+              aria-label="{{ index $m "name" }}">
+        <span class="mm-pill-name">{{ index $m "name" }}</span>
+        {{- with index $m "sub" }}<span class="mm-pill-sub">{{ . }}</span>{{ end }}
+      </button>
+      {{- end }}
+    </div>
+    <div class="mm-xlabel">{{ $xlabel }}</div>
+  </div>
+  <div class="mm-detail" data-mm-detail>
+    <div class="mm-detail-lbl">Selected technique</div>
+    <div class="mm-detail-name" data-mm-name>{{ (index $data 0).name }}</div>
+    <div class="mm-detail-desc" data-mm-desc>{{ (index $data 0).desc }}</div>
+    <div class="mm-detail-tags" data-mm-tags></div>
+  </div>
+</figure>
+{{- end -}}

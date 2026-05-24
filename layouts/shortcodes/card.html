@@ -1,0 +1,6 @@
+{{- $title := .Get "title" -}}
+{{- $label := .Get "label" -}}
+{{- $href  := .Get "href" -}}
+{{- $tag := "div" -}}{{- if $href }}{{- $tag = "a" -}}{{- end -}}
+{{- $inner := .Inner | $.Page.RenderString -}}
+<{{ $tag }} class="card"{{ with $href }} href="{{ . }}"{{ end }}>{{ with $label }}<div class="card-label">{{ . }}</div>{{ end }}{{ with $title }}<div class="card-title">{{ . }}</div>{{ end }}<div class="card-body">{{ $inner }}</div></{{ $tag }}>

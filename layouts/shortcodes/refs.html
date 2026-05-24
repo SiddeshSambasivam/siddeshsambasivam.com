@@ -1,0 +1,20 @@
+{{- $refs := .Page.Params.references -}}
+{{- if $refs }}
+<section class="refs">
+  <div class="refs-title">References</div>
+  <ol class="refs-list">
+    {{- range $i, $r := $refs }}
+    <li class="ref-item" id="ref-{{ index $r "id" }}">
+      <span class="ref-num">[{{ add $i 1 }}]</span>
+      <span>
+        {{- with index $r "authors" }}{{ . }}{{ end -}}
+        {{- with index $r "year" }} ({{ . }}){{ end -}}
+        {{- with index $r "title" }}. <em>{{ . }}</em>{{ end -}}
+        {{- with index $r "venue" }}. {{ . }}{{ end -}}
+        {{- with index $r "url" }}. <a href="{{ . }}" target="_blank" rel="noopener">link</a>{{ end -}}
+      </span>
+    </li>
+    {{- end }}
+  </ol>
+</section>
+{{- end }}

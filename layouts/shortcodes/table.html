@@ -1,0 +1,16 @@
+{{- $sortable := .Get "sortable" | default "true" -}}
+{{- $filter := .Get "filter" | default "true" -}}
+{{- $wide := .Get "wide" -}}
+{{- $caption := .Get "caption" -}}
+{{- $id := printf "tbl-%d" (now.UnixNano) -}}
+<div class="table-wrap{{ if $wide }} doc-wide{{ end }}" data-table-id="{{ $id }}">
+  {{- if eq $filter "true" }}
+  <div class="table-filter">
+    <input type="search" placeholder="Filter rows…" data-table-filter="{{ $id }}" aria-label="Filter table"/>
+  </div>
+  {{- end }}
+  <div data-table-mount="{{ $id }}"{{ if eq $sortable "true" }} data-sortable="true"{{ end }}>
+{{ .Inner | .Page.RenderString }}
+  </div>
+  {{- with $caption }}<div class="fig-caption" style="margin-top:6px">{{ . }}</div>{{ end }}
+</div>

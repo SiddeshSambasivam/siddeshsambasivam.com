@@ -1,0 +1,6 @@
+{{- $store := .Page.Store -}}
+{{- $n := add (int ($store.Get "sidenoteCount" | default 0)) 1 -}}
+{{- $store.Set "sidenoteCount" $n -}}
+<label class="sidenote-ref" for="sn-{{ $n }}-{{ .Page.File.UniqueID }}">[{{ $n }}]</label>
+<input type="checkbox" id="sn-{{ $n }}-{{ .Page.File.UniqueID }}" class="sidenote-toggle" style="display:none"/>
+<span class="sidenote"><span class="sidenote-num">{{ $n }}.</span>{{ .Inner | .Page.RenderString }}</span>

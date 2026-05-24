@@ -1,0 +1,12 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" -}}
+{{- $wide := .Get "wide" -}}
+{{- $store := .Page.Store -}}
+{{- $n := add (int ($store.Get "figCount" | default 0)) 1 -}}
+{{- $store.Set "figCount" $n -}}
+<figure class="fig{{ if $wide }} doc-wide{{ end }}">
+  {{- if $src }}<img src="{{ $src | relURL }}" alt="{{ $alt }}"/>
+  {{- else }}{{ .Inner }}{{ end }}
+  {{- with $caption }}<figcaption class="fig-caption"><span class="fig-num">Fig {{ $n }}</span>{{ . | $.Page.RenderString }}</figcaption>{{ end }}
+</figure>

@@ -63,35 +63,37 @@
     {{ partial "comments.html" . }}
   </main>
 {{- else -}}
-  {{- /* Standalone writing post — same shape as the default single layout */ -}}
+  {{- /* Standalone writing post — dynamic doc layout: sticky TOC, 640px body, components break into right gutter */ -}}
   {{- $hasToc := and (gt (len .TableOfContents) 50) (ne .Params.toc false) -}}
-  {{ if $hasToc }}
-  <div class="post-layout">
-    <aside class="post-toc">
-      <div class="post-toc-title">On this page</div>
+  <div class="doc">
+    {{ with .Params.cover }}
+      {{- $src := . -}}
+      {{- if not (or (hasPrefix . "/") (hasPrefix . "http")) -}}
+        {{- with resources.Get (printf "media/%s" .) }}{{ $src = .RelPermalink }}{{ end -}}
+      {{- end -}}
+      <div class="doc-cover"><img src="{{ $src }}" alt="{{ $.Title }}"/></div>
+    {{ end }}
+    {{ if $hasToc }}
+    <aside class="doc-toc">
+      <div class="doc-toc-title">On this page</div>
       {{ .TableOfContents }}
     </aside>
-    <article class="post-body">
-      {{ partial "post-header.html" (dict "page" . "backUrl" "/writing/" "backLabel" "Back to writing") }}
-      {{ if .Params.cover }}
-        <div class="post-cover"><img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/></div>
-      {{ end }}
+    {{ end }}
+    <article class="doc-article post-body">
+      <header class="doc-header">
+        <a href="/writing/" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Back to writing</a>
+        <h1 class="doc-title">{{ .Title }}</h1>
+        {{- with .Params.subtitle }}<div class="doc-sub">{{ . }}</div>{{ end }}
+        <div class="meta">
+          <span>{{ .Date.Format "January 2, 2006" }}</span>
+          <span>·</span>
+          <span>{{ .ReadingTime }} min read</span>
+          {{- with .Params.tags }}<span>·</span>{{ range . }}<span class="tag">{{ . }}</span>{{ end }}{{ end }}
+        </div>
+      </header>
       {{ .Content }}
       {{ partial "comments.html" . }}
     </article>
-    <div></div>
   </div>
-  {{ else }}
-  <main class="page" style="max-width:720px">
-    {{ partial "post-header.html" (dict "page" . "backUrl" "/writing/" "backLabel" "Back to writing") }}
-    {{ if .Params.cover }}
-      <div class="post-cover"><img src="{{ .Params.cover | relURL }}" alt="{{ .Title }}"/></div>
-    {{ end }}
-    <article class="post-body" style="margin-top:8px">
-      {{ .Content }}
-    </article>
-    {{ partial "comments.html" . }}
-  </main>
-  {{ end }}
 {{- end -}}
 {{ end }}
