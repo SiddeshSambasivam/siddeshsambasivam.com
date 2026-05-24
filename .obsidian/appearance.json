@@ -1,0 +1,9 @@
+{
+  "accentColor": "#245ee5",
+  "theme": "obsidian",
+  "cssTheme": "GitHub Theme",
+  "translucency": true,
+  "enabledCssSnippets": [
+    "image_adjustments"
+  ]
+}

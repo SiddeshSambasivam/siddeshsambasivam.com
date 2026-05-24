@@ -1,0 +1,257 @@
+{
+  "main": {
+    "id": "6a42e39970d60be3",
+    "type": "split",
+    "children": [
+      {
+        "id": "99e78a392f0b637a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "982afaefb5504211",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/writing/model-post-training-field-guide.md",
+                "mode": "preview",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "model-post-training-field-guide"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "afd8e186c5594799",
+    "type": "split",
+    "children": [
+      {
+        "id": "09f2a4b1cfbd521c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c6698fe618b9bda8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "800f136e37f7c842",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "postgres",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "54c6ea05cd634bb5",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 273.5,
+    "collapsed": true
+  },
+  "right": {
+    "id": "036a40afa7256050",
+    "type": "split",
+    "children": [
+      {
+        "id": "a4291bd318dc41fa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "87196fe8acc7c569",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "104253b53055c222",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "f1b30d9d66580da6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "2e606ef24ec38644",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          },
+          {
+            "id": "53f7d334897d5d44",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "advanced-tables-toolbar"
+            }
+          },
+          {
+            "id": "c9927ccd094fdb87",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "calendar"
+            }
+          },
+          {
+            "id": "255c8d6495aba287",
+            "type": "leaf",
+            "state": {
+              "type": "mermaid-toolbar-view",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "mermaid-toolbar-view"
+            }
+          }
+        ],
+        "currentTab": 6
+      }
+    ],
+    "direction": "horizontal",
+    "width": 257.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "templater-obsidian:Templater": false,
+      "bases:Create new base": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-importer:Open Importer": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "callout-manager:Insert Callout": false,
+      "mermaid-tools:Open Mermaid Toolbar": false
+    }
+  },
+  "active": "982afaefb5504211",
+  "lastOpenFiles": [
+    "public/css/main.min.67dc14915cb52d51229756130661dfe8394b74c3c2b695fa002b3f714a588389.css",
+    "public/css/main.min.d5f6ec157a8ffa920ff0fe968736191cbc0f81e5ce2b4f5b81810ec583827353.css",
+    "public/css/main.min.0d520d7a0f4a13341454deac8107a4ae86d77e4e176d0fa683bd2b58f2a9c018.css",
+    "public/css/main.min.fa01f620e3b49362a1dd4e38bf1c5193c1ac7a302702cca848d695d437c2d082.css",
+    "public/css/main.min.47c93964e81bc501dbe51084584534b828715364726e8793e74eda2f8565ce84.css",
+    "public/css/main.min.71ff85a96c9d26e57ad34c1943ed34074ed3031a065cb98e5ad64005bba9c765.css",
+    "public/css/main.min.121f0d635ada7fe9772aa36a31c7ec97334a8d3a312613e68a4e84701d309ddb.css",
+    "public/css/main.min.6e24a3a58e9c7e514a430c323316015d467fcb52cce60d2c8f9754851a5e98dc.css",
+    "public/css/main.min.f643444b87877c23ce6394edf42755eac7d5f8dabc5ee76425db96e05074710e.css",
+    "public/css/main.min.e9413e12fc554478678cad7a5dd081a79c6cf02fd23bed352d2b948ddb0ed7ce.css",
+    "public/css/main.min.43e8d8dc11b4ede2a8a3cb64ff5b216fe3320a36557e90ab7cfaa0be6394d8d4.css",
+    "public/media/model-post-training-cover.png",
+    "public/media/profile_hu8795102149842359460.93c3edcaa2884a64b718c64472be264a23c37bf922e74f75b8185264c902a26e.webp",
+    "public/media/profile_hu8422193247557379942.47aa45cbb7d8123ab3f598d3480da7d2c553bd99895afc0d104ee6f7cffe7b26.webp",
+    "resources/_gen/images/media/profile_hu8795102149842359460.webp",
+    "resources/_gen/images/media/profile_hu8422193247557379942.webp",
+    "public/media/profile_hu538480908738378820.dc14e0547154c00109bc46f6d3313b705667b8e7f8c41ae891c00b11a526050c.png",
+    "public/media/icon_hu3488628057275701456.2b040ddc43aeefed83506c0a25e4f9263f2e1a91e4e6763ecd1078293158b352.png",
+    "public/media/icon_hu14521577966972414925.7389aec858f964a370da0ab01d3dc861934a5ec696b71bec22e74a87e8877774.png",
+    "public/media/icon_hu12607621385003221358.a3302d681b5a72aba7f43f4f4665fd0f1be3ee34292f16f0d744e71c6356398c.png",
+    "public/media/icon_hu12231004700792724877.589239141173523ffce18b4f928b26b6ae5d81b5da2527beca887a95231a125e.png",
+    "content/writing/datlite-postmortem.md",
+    "content/writing/8x-h100-architecture.md",
+    "content/writing/_index.md",
+    "content/writing/model-post-training-field-guide.md",
+    "Untitled.md",
+    "Templates/New Project.md",
+    "Templates/New Series Entry.md",
+    "Templates/New Writing Series.md",
+    "Templates/New Writing Post.md",
+    "Templates/Writing Series Index.md",
+    "Templates/Writing Series Entry.md",
+    "Templates/Writing Post.md",
+    "Templates/Project.md",
+    "content/writing/visual-nla/_index.md",
+    "private/Visual SLA.md",
+    "private/Why go.md",
+    "private/Untitled 1.md",
+    "AI Research/Model Architecture Brief Survey.md",
+    "Engineering/Writing browser agent tests with local CDP Server.md",
+    "Engineering/System design framework.md",
+    "Engineering/Deployment strategies.md",
+    "Engineering/Microservices and gRPC.md",
+    "CS Fundamentals/Algorithms - intervals.md",
+    "CS Fundamentals/Algorithms - linked list.md",
+    "CS Fundamentals/Algorithms - dynamic programming.md",
+    "private/Hypo/Stripes issues/Untitled.canvas",
+    "Untitled.canvas"
+  ]
+}

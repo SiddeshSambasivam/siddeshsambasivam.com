@@ -1,0 +1,22 @@
+{
+  "command_timeout": 5,
+  "templates_folder": "Templates",
+  "templates_pairs": [["", ""]],
+  "trigger_on_file_creation": false,
+  "auto_jump_to_cursor": false,
+  "enable_system_commands": false,
+  "shell_path": "",
+  "user_scripts_folder": "",
+  "enable_folder_templates": false,
+  "folder_templates": [{ "folder": "", "template": "" }],
+  "enabled_templates_hotkeys": [
+    "Templates/New Writing Post.md",
+    "Templates/New Writing Series.md",
+    "Templates/New Series Entry.md",
+    "Templates/New Project.md"
+  ],
+  "syntax_highlighting": true,
+  "syntax_highlighting_mobile": false,
+  "enabled_models": [],
+  "user_system_command_models": []
+}

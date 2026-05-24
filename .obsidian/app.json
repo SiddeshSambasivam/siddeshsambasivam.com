@@ -1,0 +1,14 @@
+{
+  "promptDelete": false,
+  "showLineNumber": true,
+  "vimMode": true,
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": false,
+  "defaultViewMode": "preview",
+  "strictLineBreaks": true,
+  "showIndentGuide": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "content/writing",
+  "attachmentFolderPath": "./attachments",
+  "newLinkFormat": "relative"
+}
