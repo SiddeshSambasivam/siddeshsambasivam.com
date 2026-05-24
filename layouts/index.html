@@ -1,7 +1,9 @@
 {{ define "main" }}
 {{- $projectPages := where (where site.RegularPages "Section" "projects") "Params.featured" "!=" false -}}
 {{- $projectPages = first 6 (sort $projectPages "Weight") -}}
-{{- $writingPages := first 8 (where site.RegularPages "Section" "in" (slice "writing" "posts" "garden")) -}}
+{{- $allWriting := where site.RegularPages "Section" "in" (slice "writing" "posts" "garden") -}}
+{{- $featured := first 1 (where $allWriting "Params.featured" true) -}}
+{{- $writingPages := first 8 (where $allWriting "Params.featured" "!=" true) -}}
 {{- $profileSrc := resources.Get "media/profile.png" -}}
 {{- $profile := ($profileSrc.Fill "320x320 Center webp q82") | resources.Fingerprint -}}
 {{- $profile2x := ($profileSrc.Fill "480x480 Center webp q82") | resources.Fingerprint -}}
@@ -58,6 +60,45 @@
       See the full work history {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}
     </a>
     {{- end }}
+  </section>
+  {{- end }}
+
+  {{- with index $featured 0 }}
+  {{- $cover := .Params.cover -}}
+  {{- $coverSrc := "" -}}
+  {{- if $cover -}}
+    {{- if or (hasPrefix $cover "/") (hasPrefix $cover "http") -}}
+      {{- $coverSrc = $cover -}}
+    {{- else -}}
+      {{- with resources.Get (printf "media/%s" $cover) -}}{{ $coverSrc = .RelPermalink }}{{- end -}}
+    {{- end -}}
+  {{- end }}
+  <section class="section" id="featured">
+    <div class="section-head">
+      <h2>Featured</h2>
+      <span class="head-link" style="color:var(--text-mute)">Editor's pick</span>
+    </div>
+    <a href="{{ .RelPermalink }}" class="featured-card">
+      {{- with $coverSrc }}
+      <div class="featured-cover"><img src="{{ . }}" alt="{{ $.Title }}" loading="lazy"/></div>
+      {{- end }}
+      <div class="featured-body">
+        <div class="featured-eyebrow">
+          <span class="featured-badge">Featured</span>
+          <span class="featured-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+          <span class="featured-dot" aria-hidden="true">·</span>
+          <span class="featured-read">{{ .ReadingTime }} min read</span>
+        </div>
+        <h3 class="featured-title">{{ .Title }}</h3>
+        {{- with (or .Params.subtitle .Params.oneliner .Summary) }}
+        <p class="featured-sub">{{ . | plainify | truncate 200 }}</p>
+        {{- end }}
+        {{- with .Params.tags }}
+        <div class="featured-tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
+        {{- end }}
+        <span class="featured-cta">Read the post {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}</span>
+      </div>
+    </a>
   </section>
   {{- end }}
 

@@ -6,6 +6,7 @@ subtitle: The mechanics behind turning a general-purpose model into one that fit
 tags: ["llm", "post-training"]
 icon: pen
 toc: true
+featured: true
 cover: model-post-training-cover.png
 references:
   - id: instructgpt
