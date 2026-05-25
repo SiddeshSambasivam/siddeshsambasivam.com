@@ -1,97 +1,99 @@
 ---
 title: A Field Guide to Model Post-training
 date: 2026-05-19
-draft: false
+draft: true
 subtitle: The mechanics behind turning a general-purpose model into one that fits your product — SFT, LoRA, DPO, KTO, GRPO, and when each one earns its place.
-tags: ["llm", "post-training"]
+tags:
+  - llm
+  - post-training
 icon: pen
 toc: true
 featured: true
 cover: model-post-training-cover.png
 references:
   - id: instructgpt
-    authors: "Ouyang et al."
+    authors: Ouyang et al.
     year: 2022
-    title: "Training language models to follow instructions with human feedback"
-    venue: "NeurIPS"
-    url: "https://arxiv.org/abs/2203.02155"
+    title: Training language models to follow instructions with human feedback
+    venue: NeurIPS
+    url: https://arxiv.org/abs/2203.02155
   - id: lima
-    authors: "Zhou et al."
+    authors: Zhou et al.
     year: 2023
     title: "LIMA: Less Is More for Alignment"
-    url: "https://arxiv.org/abs/2305.11206"
+    url: https://arxiv.org/abs/2305.11206
   - id: ifd
-    authors: "Li et al."
+    authors: Li et al.
     year: 2024
     title: "From Quantity to Quality: Boosting LLM Performance with Self-Guided Data Selection"
-    venue: "NAACL"
-    url: "https://aclanthology.org/2024.naacl-long.421/"
+    venue: NAACL
+    url: https://aclanthology.org/2024.naacl-long.421/
   - id: forgetting
-    authors: "Wang et al."
+    authors: Wang et al.
     year: 2025
-    title: "Catastrophic forgetting scales with model size in fine-tuning"
-    url: "https://arxiv.org/pdf/2506.09428"
+    title: Catastrophic forgetting scales with model size in fine-tuning
+    url: https://arxiv.org/pdf/2506.09428
   - id: lora
-    authors: "Hu et al."
+    authors: Hu et al.
     year: 2021
     title: "LoRA: Low-Rank Adaptation of Large Language Models"
-    url: "https://arxiv.org/abs/2106.09685"
+    url: https://arxiv.org/abs/2106.09685
   - id: slora
-    authors: "Sheng et al."
+    authors: Sheng et al.
     year: 2023
     title: "S-LoRA: Serving Thousands of Concurrent LoRA Adapters"
-    url: "https://arxiv.org/pdf/2311.03285"
+    url: https://arxiv.org/pdf/2311.03285
   - id: dpo
-    authors: "Rafailov et al."
+    authors: Rafailov et al.
     year: 2023
     title: "Direct Preference Optimization: Your Language Model Is Secretly a Reward Model"
-    url: "https://arxiv.org/abs/2305.18290"
+    url: https://arxiv.org/abs/2305.18290
   - id: kto
-    authors: "Ethayarajh et al."
+    authors: Ethayarajh et al.
     year: 2024
     title: "KTO: Model Alignment as Prospect Theoretic Optimization"
-    venue: "ICML"
-    url: "https://arxiv.org/abs/2402.01306"
+    venue: ICML
+    url: https://arxiv.org/abs/2402.01306
   - id: deepseekr1
-    authors: "DeepSeek-AI"
+    authors: DeepSeek-AI
     year: 2025
     title: "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
-    url: "https://arxiv.org/abs/2501.12948"
+    url: https://arxiv.org/abs/2501.12948
 methods_map:
-  - name: "LoRA"
-    sub: "QLoRA"
-    color: "green"
-    px: 0.40
+  - name: LoRA
+    sub: QLoRA
+    color: green
+    px: 0.4
     py: 0.78
-    type: "supervised, parameter-efficient"
-    desc: "SFT (or DPO/KTO) objective with ~1% of weights trained. The default for production fine-tuning when compute is a constraint or you serve many variants."
-  - name: "Full FT"
-    sub: "SFT"
-    color: "yellow"
+    type: supervised, parameter-efficient
+    desc: SFT (or DPO/KTO) objective with ~1% of weights trained. The default for production fine-tuning when compute is a constraint or you serve many variants.
+  - name: Full FT
+    sub: SFT
+    color: yellow
     px: 0.95
     py: 0.78
-    type: "supervised, full-parameter"
-    desc: "Update every weight on labeled (prompt → response) pairs. Highest task ceiling for a single variant. Expensive and prone to catastrophic forgetting at scale."
-  - name: "DPO"
-    sub: "KTO"
-    color: "purple"
+    type: supervised, full-parameter
+    desc: Update every weight on labeled (prompt → response) pairs. Highest task ceiling for a single variant. Expensive and prone to catastrophic forgetting at scale.
+  - name: DPO
+    sub: KTO
+    color: purple
     px: 0.45
     py: 0.22
-    type: "preference, offline"
-    desc: "Static preference optimization without RL. DPO needs pairwise (chosen, rejected) data; KTO works on binary thumbs-up/down logs. The right starting point for alignment."
-  - name: "RLHF"
-    sub: "PPO"
-    color: "red"
+    type: preference, offline
+    desc: Static preference optimization without RL. DPO needs pairwise (chosen, rejected) data; KTO works on binary thumbs-up/down logs. The right starting point for alignment.
+  - name: RLHF
+    sub: PPO
+    color: red
     px: 0.72
     py: 0.22
-    type: "preference, online, RL"
-    desc: "Reward model + PPO. Highest preference ceiling, especially when helpfulness and safety need to be optimized jointly. Operationally heavy."
-  - name: "GRPO"
-    color: "pink"
+    type: preference, online, RL
+    desc: Reward model + PPO. Highest preference ceiling, especially when helpfulness and safety need to be optimized jointly. Operationally heavy.
+  - name: GRPO
+    color: pink
     px: 0.95
     py: 0.22
-    type: "preference, online, RL, verifiable reward"
-    desc: "PPO without the value-function critic. 40–60% less memory. The DeepSeek-R1 recipe — works best when the reward is verifiable (math, code)."
+    type: preference, online, RL, verifiable reward
+    desc: PPO without the value-function critic. 40–60% less memory. The DeepSeek-R1 recipe — works best when the reward is verifiable (math, code).
 ---
 Most AI products are using the same general-purpose models. The moat isn't the model — it's the feedback loop. Companies that capture user signal and feed it back into training are building products other people can't reproduce with a prompt.
 
