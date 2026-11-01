@@ -41,11 +41,13 @@
       {{- end }}
     </div>
     {{- end }}
-    {{- if $p.Params.banner_label }}
+    {{- with partial "media-src.html" $p.Params.banner_image }}
+    <div class="proj-banner proj-banner-image"><img src="{{ . }}" alt="{{ $p.Title }}"/></div>
+    {{- else with $p.Params.banner_label }}
     <div class="proj-banner">
       <div class="proj-banner-inner">
         <div class="proj-banner-icon">{{ partial "icons.html" (dict "name" ($p.Params.banner_icon | default "bolt") "size" 18) }}</div>
-        <div class="proj-banner-label">{{ $p.Params.banner_label }}</div>
+        <div class="proj-banner-label">{{ . }}</div>
       </div>
     </div>
     {{- end }}

@@ -8,16 +8,15 @@ status: "Open source"
 tags: ["tauri", "rust", "react", "agents", "mcp"]
 icon: sparks
 featured: true
-banner_label: "openplan · alignment before code"
-banner_icon: sparks
+banner_image: openplan-blog-hero.png
 meta:
   - { label: "Stack", value: "Tauri + React" }
   - { label: "Platforms", value: "macOS, Windows, Linux" }
   - { label: "Agents", value: "Claude Code, Codex, Cursor" }
   - { label: "License", value: "MIT" }
 actions:
-  - { label: "Download", url: "/writing/building-openplan/#download", icon: "arrow", primary: true }
-  - { label: "Read the post", url: "/writing/building-openplan/", icon: "pen" }
+  - { label: "Read the post", url: "/writing/building-openplan/", icon: "pen", primary: true }
+  - { label: "Download", url: "/writing/building-openplan/#download", icon: "arrow" }
   - { label: "Repository", url: "https://github.com/SiddeshSambasivam/openplan", icon: "github" }
 ---
 

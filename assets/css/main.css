@@ -1180,6 +1180,8 @@ button {
 		var(--bg-elev) 14px 28px
 	);
 }
+.proj-banner-image { height: auto; background: var(--bg-soft); }
+.proj-banner-image img { display: block; width: 100%; height: auto; max-height: 360px; object-fit: cover; }
 .proj-banner-inner {
 	position: absolute;
 	inset: 0;
