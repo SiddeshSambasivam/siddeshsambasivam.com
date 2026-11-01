@@ -1,26 +1,46 @@
+# The first 3 bullets per role show by default. The rest sit behind "View more".
+# Keep each bullet to one line on desktop (about 85 characters) with one bold phrase.
 - id: hyp-lead
   when: "Apr 2026 - Present"
   role: Lead Software Engineer
   company: Hypotenuse AI
   current: true
   bullets:
-    - "Own the architecture and engineering direction, including the product database, enrichment, and generation systems that handle millions of SKUs every day. Most of my time goes into deciding what to build next and keeping AI and compute costs trending down as we grow."
-    - "Building the feedback loops and retraining pipelines that turn every correction across Hypotenuse, both explicit edits and implicit signals, into training data for better models over time, along with the internal AI tooling our engineers rely on day to day."
+    - "<strong>Lead the engineering team</strong> behind a SOC 2 platform processing millions of SKUs a day."
+    - "Cut categorization cost <strong>80% at 95%+ accuracy</strong> by training an embedder and reranker."
+    - "Split read and write stores (CQRS), cutting worst-case reads from <strong>50s to under 1s</strong>."
+    - "Kept the read store within <strong>1s of writes at p99</strong> using a transactional outbox."
+    - "Cut per-product cost <strong>43%</strong> after tracing an 11x spike, using model routing and batching."
+    - "Gate <strong>100% of prompt and model changes</strong> on evals with human-calibrated LLM judges."
+    - "Built agent profiles that <strong>rerun evals on every change</strong> to catch model regressions."
+    - "Feed customer ratings and edits back as evals, with an agent drafting <strong>retraining plans</strong>."
+    - "Built a sandboxed multi-agent harness that <strong>beats frontier lab harnesses</strong> on our evals."
+    - "Shipped to enterprise retailers with catalogs of up to <strong>15M+ SKUs</strong>, discovery to rollout."
+    - "Took onboarding to <strong>zero custom code</strong> with an agent that builds each customer's pipeline."
+    - "Own <strong>hiring, mentoring and design review</strong>, plus the multi-region AWS expansion."
 
 - id: hyp-senior
   when: "Jan 2025 - Apr 2026"
   role: Senior Software Engineer
   company: Hypotenuse AI
   bullets:
-    - "Designed and shipped Hypotenuse's end-to-end product data platform: the multi-tenant database, a web crawler that uses LLMs to enrich new products as they arrive, and the bulk processor that handles 100k+ products in a single run. Today it serves sub-second queries across 2M+ products."
-    - "Built our in-browser image editor from scratch. A canvas engine with undo/redo, the usual editing tools, and AI image generation built in. Also shipped custom ProseMirror and TipTap nodes for the rich-text side of the editor."
-    - "Stood up proper observability across the product. Traces, metrics, and logs through OpenTelemetry, flowing into AWS Grafana and Prometheus, with alerts that page the right person."
+    - "Scaled bulk enrichment to <strong>100K+ products per run</strong>, with sub-second search over 2M+."
+    - "Built the <strong>multi-tenant product database</strong> and an LLM crawler that enriches new products."
+    - "Wrote an in-browser <strong>image editor</strong> from scratch, with undo, redo and AI generation."
+    - "Built custom <strong>ProseMirror and TipTap</strong> nodes for the rich-text editor."
+    - "Set up <strong>OpenTelemetry, Prometheus and Grafana</strong>, with alerts that page one person."
+    - "Added <strong>Langfuse</strong> traces for LLM calls across the product."
 
 - id: hyp-swe
   when: "Jan 2023 - Jan 2025"
   role: Software Engineer
   company: Hypotenuse AI
   bullets:
-    - "Built Hypotenuse's core AI capabilities from a blank slate: RAG pipelines, LLM streaming, the vector store, rate-limiting for generation and third-party APIs, and a crawler that keeps an eye on customer-configured sites to surface fresh content ideas."
-    - "Shipped research-grounded blog workflows with inline citations, and led the platform-wide move from a credit-based pricing model to a word-based one, which touched almost every generation flow we have."
-    - "Provisioned our multi-region AWS infrastructure with Terraform. Cut image generation costs by 89% and server memory by 99.5% through profiling and targeted rewrites."
+    - "Shipped the first AI features (RAG, streaming, vector search) to <strong>4M+ users</strong>."
+    - "Made an enterprise customer's writers <strong>5x faster</strong> with a fine-tuned copywriting model."
+    - "Cut image generation cost <strong>89%</strong> and server memory <strong>99.5%</strong> by profiling hot paths."
+    - "Built our first <strong>agentic description pipeline</strong>, with brand and format evaluators."
+    - "Added <strong>rate limiting</strong> for generation and third-party APIs, plus a content-ideas crawler."
+    - "Provisioned <strong>multi-region AWS</strong> infrastructure with Terraform."
+    - "Shipped research-grounded blog workflows with <strong>inline citations</strong>."
+    - "Led the move to <strong>word-based pricing</strong>, which touched almost every generation flow."
