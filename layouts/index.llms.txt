@@ -47,7 +47,7 @@ This is the personal website of {{ site.Params.author }} ({{ site.Params.brand }
 
 ## Projects
 
-{{- $projects := sort (where site.RegularPages "Section" "projects") "Weight" }}
+{{- $projects := sort (where site.RegularPages "Section" "projects") "Date" "desc" }}
 {{- if $projects }}
 {{- range $projects }}
 - [{{ .Title }}]({{ .Permalink }}){{ with .Params.oneliner }}: {{ . }}{{ else }}{{ with .Params.subtitle }}: {{ . }}{{ end }}{{ end }}

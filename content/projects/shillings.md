@@ -8,7 +8,6 @@ status: "Open source"
 tags: ["go", "backend", "api", "system-design"]
 icon: bolt
 featured: true
-weight: 50
 banner_label: "shillings · mock payments backend"
 banner_icon: bolt
 meta:

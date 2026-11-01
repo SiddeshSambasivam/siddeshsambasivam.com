@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{- $projectPages := where (where site.RegularPages "Section" "projects") "Params.featured" "!=" false -}}
-{{- $projectPages = first 6 (sort $projectPages "Weight") -}}
+{{- $projectPages = first 6 (sort $projectPages "Date" "desc") -}}
 {{- $allWriting := where site.RegularPages "Section" "in" (slice "writing" "posts" "garden") -}}
 {{- $featured := first 1 (where $allWriting "Params.featured" true) -}}
 {{- $writingPages := first 8 (where $allWriting "Params.featured" "!=" true) -}}

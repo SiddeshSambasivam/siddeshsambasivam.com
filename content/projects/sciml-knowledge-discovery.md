@@ -8,7 +8,6 @@ status: "Research"
 tags: ["research", "scientific-ml", "symbolic-regression"]
 icon: disc
 featured: true
-weight: 60
 banner_label: "sciml · ICARCV 2022 paper"
 banner_icon: disc
 meta:

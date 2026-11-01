@@ -8,7 +8,6 @@ status: "Open source"
 tags: ["javascript", "knowledge-graph", "nlp", "edtech"]
 icon: sparks
 featured: true
-weight: 20
 banner_label: "learnify · notes → knowledge graph"
 banner_icon: sparks
 meta:

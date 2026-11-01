@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{- $pages := .RegularPagesRecursive -}}
-{{- if eq .Section "projects" -}}{{- $pages = sort $pages "Weight" -}}{{- end -}}
+{{- if eq .Section "projects" -}}{{- $pages = sort $pages "Date" "desc" -}}{{- end -}}
 <main class="page">
   <header style="margin-bottom:16px">
     <h1 style="font-size:1.6rem;font-weight:500;margin-bottom:6px;font-family:var(--serif)">{{ .Title }}</h1>
@@ -16,7 +16,7 @@
   <div class="feed" data-feed>
     {{- range $pages }}
     <a href="{{ or .Params.external_url .RelPermalink }}" class="feed-row" data-feed-row data-search-text="{{ printf "%s %s %s" .Title (delimit (.Params.tags | default slice) " ") .Summary | lower }}" style="grid-template-columns:72px 1fr auto auto 14px;gap:12px"{{ if .Params.external_url }} rel="noopener" target="_blank"{{ end }}>
-      <span class="feed-type">{{ .Params.feed_type | default (cond (eq .Section "garden") "garden" "post") }}</span>
+      <span class="feed-type">{{ .Params.feed_type | default (index (dict "garden" "garden" "projects" "project") .Section | default "post") }}</span>
       <span style="display:flex;flex-direction:column;min-width:0;gap:1px">
         <span class="feed-title">{{ .Title }}</span>
         <span style="font-size:0.78rem;color:var(--text-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ .Summary | plainify | truncate 140 }}</span>

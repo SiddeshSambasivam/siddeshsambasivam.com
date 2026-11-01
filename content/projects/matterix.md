@@ -8,7 +8,6 @@ status: "Open source"
 tags: ["python", "deep-learning", "autodiff"]
 icon: stack
 featured: true
-weight: 10
 banner_label: "matterix · deep learning from scratch"
 banner_icon: stack
 meta:
