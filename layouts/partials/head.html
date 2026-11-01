@@ -51,7 +51,9 @@
 {{- with site.Params.socials.x }}<meta name="twitter:site" content="@{{ index (last 1 (split (trim . "/") "/")) 0 }}"/>{{ end }}
 <link rel="canonical" href="{{ .Permalink }}"/>
 {{- if hugo.IsProduction }}{{ with site.Params.analytics.umami_website_id }}
-<script defer src="https://cloud.umami.is/script.js" data-website-id="{{ . }}" data-domains="{{ (urls.Parse site.BaseURL).Host }}"></script>
+{{- /* Umami matches hostnames exactly, and Netlify serves the site on www, so list both. */}}
+{{- $host := strings.TrimPrefix "www." (urls.Parse site.BaseURL).Host }}
+<script defer src="https://cloud.umami.is/script.js" data-website-id="{{ . }}" data-domains="{{ $host }},www.{{ $host }}"></script>
 {{- end }}{{ end }}
 {{- if and .IsPage .Params.video }}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vidstack@1.15.7/player/styles/default/theme.css" integrity="sha384-7HVHtwv1jAsERSB1l8ysZZlKx9beWwd9dGojBnKFWomqs6WCXUeC+L79DweRc+Fm" crossorigin="anonymous"/>
