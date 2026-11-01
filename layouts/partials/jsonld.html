@@ -30,22 +30,25 @@
   "author" $author
   | jsonify | safeJS }}</script>
 {{- else if and .IsPage (eq .Section "writing") -}}
-{{- $img := "" -}}{{- with .Params.cover }}{{ $img = absURL . }}{{ end -}}
-<script type="application/ld+json">{{ dict
+{{- $img := "" -}}{{- with partial "media-src.html" (or .Params.card_image .Params.banner_image) }}{{ $img = absURL . }}{{ end -}}
+{{- $post := dict
   "@context" "https://schema.org"
   "@type" "BlogPosting"
   "headline" .Title
   "description" (or .Params.subtitle .Summary | plainify | truncate 200)
-  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
-  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
   "author" $author
   "publisher" $author
   "mainEntityOfPage" .Permalink
   "url" .Permalink
   "image" $img
-  "keywords" (delimit .Params.tags ", ")
+  "keywords" (delimit (.Params.tags | default slice) ", ")
   "wordCount" .WordCount
-  | jsonify | safeJS }}</script>
+-}}
+{{- if not .Date.IsZero }}{{ $post = merge $post (dict
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+) }}{{ end -}}
+<script type="application/ld+json">{{ $post | jsonify | safeJS }}</script>
 {{- else if and .IsPage (eq .Section "projects") -}}
 <script type="application/ld+json">{{ dict
   "@context" "https://schema.org"
@@ -55,7 +58,7 @@
   "url" .Permalink
   "creator" $author
   "dateCreated" (.Date.Format "2006-01-02")
-  "keywords" (delimit .Params.tags ", ")
+  "keywords" (delimit (.Params.tags | default slice) ", ")
   | jsonify | safeJS }}</script>
 {{- else -}}
 <script type="application/ld+json">{{ dict

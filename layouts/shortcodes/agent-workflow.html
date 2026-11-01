@@ -1,0 +1,45 @@
+{{- /*
+  Interactive step diagram for the usual coding-agent workflow.
+  Reads `agent_workflow` from front matter: a list of steps with id, title, actor,
+  does, risk and an optional mark ("gap" or "review"). The gap step starts selected.
+  With JavaScript the diagram steps through on its own (data-flow-autoplay, in ms)
+  until the reader takes over or pauses it. Without JavaScript every step's detail stays visible.
+*/ -}}
+{{- $steps := .Page.Params.agent_workflow -}}
+{{- if not $steps -}}
+<div class="callout" data-type="warn"><div class="callout-body">agent-workflow: <code>agent_workflow</code> missing in front matter</div></div>
+{{- else -}}
+{{- $selected := 0 -}}
+{{- range $i, $s := $steps }}{{ if eq $s.mark "gap" }}{{ $selected = $i }}{{ end }}{{ end -}}
+<figure class="flow wf" data-flow data-flow-autoplay="4000">
+  <ol class="wf-steps" role="group" aria-label="The five steps most coding-agent work follows">
+    {{- range $i, $s := $steps }}
+    <li class="wf-step">
+      <button type="button" class="flow-node wf-node{{ with $s.mark }} is-{{ . }}{{ end }}" data-flow-node="{{ $s.id }}" aria-pressed="{{ eq $i $selected }}">
+        <span class="wf-num">{{ add $i 1 }}</span>
+        <span class="wf-title">{{ $s.title }}</span>
+        <span class="wf-actor">{{ $s.actor }}</span>
+      </button>
+      {{- if eq $s.mark "gap" }}<span class="flow-chip is-gap">Gap opens</span>{{ end }}
+      {{- if eq $s.mark "review" }}<span class="flow-chip is-review">Plan checked</span>{{ end }}
+    </li>
+    {{- end }}
+  </ol>
+  <div class="flow-panel">
+    <div class="flow-progress" aria-hidden="true"><span></span></div>
+    <div class="flow-details" aria-live="polite">
+      {{- range $i, $s := $steps }}
+      <div class="flow-detail" data-flow-detail="{{ $s.id }}">
+        <div class="flow-detail-lbl">Step {{ add $i 1 }} of {{ len $steps }} · {{ $s.actor }}</div>
+        <div class="flow-detail-name">{{ $s.title }}</div>
+        <div class="flow-detail-cols">
+          <div><div class="flow-detail-key">What happens</div><p>{{ $s.does }}</p></div>
+          <div><div class="flow-detail-key">What goes wrong</div><p>{{ $s.risk }}</p></div>
+        </div>
+      </div>
+      {{- end }}
+    </div>
+    {{ partial "flow-nav.html" "step" }}
+  </div>
+</figure>
+{{- end -}}

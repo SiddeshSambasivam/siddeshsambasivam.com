@@ -1,0 +1,64 @@
+{{- /*
+  Interactive state machine for the OpenPlan plan lifecycle.
+  Reads `plan_lifecycle` from front matter: a `target` score and a list of states
+  with id, name, mover, does and next. Optional flags on a state:
+    gate  the arrow out of this state opens at the target score; the score animates whenever it shows
+    back  label for an edge from this state back to the one before it
+    side  label for a state reachable from any other, drawn below the main path
+  The gate state starts selected. With JavaScript the diagram steps through the states
+  on its own (data-flow-autoplay, in ms) until the reader takes over or pauses it.
+  Without JavaScript every state's detail stays visible.
+*/ -}}
+{{- $lc := .Page.Params.plan_lifecycle -}}
+{{- if not $lc -}}
+<div class="callout" data-type="warn"><div class="callout-body">plan-lifecycle: <code>plan_lifecycle</code> missing in front matter</div></div>
+{{- else -}}
+{{- $target := $lc.target | default 80 -}}
+{{- $main := where $lc.states "side" "==" nil -}}
+{{- $side := where $lc.states "side" "!=" nil -}}
+{{- $all := $main | append $side -}}
+{{- $selected := index $main 0 -}}
+{{- range $main }}{{ if .gate }}{{ $selected = . }}{{ end }}{{ end -}}
+<figure class="flow lc" data-flow data-flow-autoplay="4500" data-gate-target="{{ $target }}">
+  <div class="lc-map" role="group" aria-label="The six states of an OpenPlan plan">
+    {{- range $i, $s := $main }}
+    {{- if $i }}
+    {{- $prev := index $main (sub $i 1) }}
+    <span class="lc-arrow{{ if $prev.gate }} lc-gate{{ end }}" aria-hidden="true">
+      {{- if $prev.gate }}<span class="lc-gate-badge" data-gate-badge>Score ≥ {{ $target }}</span>{{ end -}}
+    </span>
+    {{- end }}
+    <button type="button" class="flow-node lc-node" data-flow-node="{{ $s.id }}" aria-pressed="{{ eq $s.id $selected.id }}"{{ if $s.gate }} data-gate{{ end }}>
+      <span class="lc-num">{{ add $i 1 }}</span>
+      <span class="lc-name">{{ $s.name }}</span>
+      {{- if $s.gate }}<span class="lc-score" aria-hidden="true"><span></span></span>{{ end }}
+    </button>
+    {{- with $s.back }}
+    <span class="lc-back" style="--from: {{ sub (mul $i 2) 1 }}; --to: {{ add (mul $i 2) 2 }}" aria-hidden="true"><span>{{ . }}</span></span>
+    {{- end }}
+    {{- end }}
+    {{- range $side }}
+    <button type="button" class="flow-node lc-node lc-side" data-flow-node="{{ .id }}" aria-pressed="false">
+      <span class="lc-name">{{ .name }}</span>
+      <span class="lc-side-note">{{ .side }}</span>
+    </button>
+    {{- end }}
+  </div>
+  <div class="flow-panel">
+    <div class="flow-progress" aria-hidden="true"><span></span></div>
+    <div class="flow-details" aria-live="polite">
+      {{- range $i, $s := $all }}
+      <div class="flow-detail" data-flow-detail="{{ $s.id }}">
+        <div class="flow-detail-lbl">State {{ add $i 1 }} of {{ len $all }} · {{ $s.mover }} move{{ if ne $s.mover "You" }}s{{ end }} it on</div>
+        <div class="flow-detail-name">{{ $s.name }}</div>
+        <div class="flow-detail-cols">
+          <div><div class="flow-detail-key">What happens</div><p>{{ $s.does }}</p></div>
+          <div><div class="flow-detail-key">How it moves on</div><p>{{ $s.next }}</p></div>
+        </div>
+      </div>
+      {{- end }}
+    </div>
+    {{ partial "flow-nav.html" "state" }}
+  </div>
+</figure>
+{{- end -}}

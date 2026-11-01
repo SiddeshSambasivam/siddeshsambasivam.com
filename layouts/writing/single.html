@@ -28,13 +28,16 @@
         {{ .Title }}
       </h1>
       <div class="meta">
+        {{- if not .Date.IsZero }}
         <span>{{ .Date.Format "January 2, 2006" }}</span>
         <span>·</span>
+        {{- end }}
         <span>{{ .ReadingTime }} min read</span>
         <span>·</span>
         <a href="{{ $series.RelPermalink }}" style="color:var(--text-mute)">{{ $series.Title }}</a>
       </div>
     </div>
+    {{ partial "post-video.html" . }}
     <article class="post-body" style="margin-top:8px">
       {{ .Content }}
     </article>
@@ -61,18 +64,28 @@
     {{- end }}
 
     {{ partial "comments.html" . }}
+    {{ partial "scroll-jump.html" . }}
   </main>
 {{- else -}}
   {{- /* Standalone writing post — dynamic doc layout: sticky TOC, 640px body, components break into right gutter */ -}}
   {{- $hasToc := and (gt (len .TableOfContents) 50) (ne .Params.toc false) -}}
   <div class="doc">
-    {{ with .Params.cover }}
-      {{- $src := . -}}
-      {{- if not (or (hasPrefix . "/") (hasPrefix . "http")) -}}
-        {{- with resources.Get (printf "media/%s" .) }}{{ $src = .RelPermalink }}{{ end -}}
-      {{- end -}}
-      <div class="doc-cover"><img src="{{ $src }}" alt="{{ $.Title }}"/></div>
+    {{ with partial "media-src.html" .Params.banner_image }}
+      <div class="doc-cover"><img src="{{ . }}" alt="{{ $.Title }}"/></div>
     {{ end }}
+    <header class="doc-header post-body">
+      <a href="/writing/" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Back to writing</a>
+      <h1 class="doc-title">{{ .Title }}</h1>
+      {{- with .Params.subtitle }}<div class="doc-sub">{{ . }}</div>{{ end }}
+      <div class="meta">
+        {{- if not .Date.IsZero }}
+        <span>{{ .Date.Format "January 2, 2006" }}</span>
+        <span>·</span>
+        {{- end }}
+        <span>{{ .ReadingTime }} min read</span>
+        {{- with .Params.tags }}<span>·</span>{{ range . }}<span class="tag">{{ . }}</span>{{ end }}{{ end }}
+      </div>
+    </header>
     {{ if $hasToc }}
     <aside class="doc-toc">
       <div class="doc-toc-title">On this page</div>
@@ -80,20 +93,17 @@
     </aside>
     {{ end }}
     <article class="doc-article post-body">
-      <header class="doc-header">
-        <a href="/writing/" class="back-link">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Back to writing</a>
-        <h1 class="doc-title">{{ .Title }}</h1>
-        {{- with .Params.subtitle }}<div class="doc-sub">{{ . }}</div>{{ end }}
-        <div class="meta">
-          <span>{{ .Date.Format "January 2, 2006" }}</span>
-          <span>·</span>
-          <span>{{ .ReadingTime }} min read</span>
-          {{- with .Params.tags }}<span>·</span>{{ range . }}<span class="tag">{{ . }}</span>{{ end }}{{ end }}
-        </div>
-      </header>
+      {{ partial "post-video.html" . }}
+      {{- /* Below 1100px the right column (and its download card) is gone, so the download sits here. */}}
+      {{- with .Params.app }}<div class="doc-inline-download">{{ partial "app-download.html" (dict "app" . "placement" "post-inline") }}</div>{{ end }}
       {{ .Content }}
+      {{- with .Params.app }}{{ partial "app-download.html" (dict "app" . "style" "callout") }}{{ end }}
       {{ partial "comments.html" . }}
     </article>
+    {{- with .Params.app }}
+    <aside class="doc-side">{{ partial "app-download.html" (dict "app" . "style" "cta") }}</aside>
+    {{- end }}
+    {{ partial "scroll-jump.html" . }}
   </div>
 {{- end -}}
 {{ end }}

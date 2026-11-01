@@ -39,7 +39,7 @@ This is the personal website of {{ site.Params.author }} ({{ site.Params.brand }
 {{- $writing := where site.RegularPages "Section" "writing" }}
 {{- if $writing }}
 {{- range $writing.ByDate.Reverse }}
-- [{{ .Title }}]({{ .Permalink }}){{ with .Params.subtitle }}: {{ . }}{{ else }}{{ with .Summary }}: {{ . | plainify | truncate 160 }}{{ end }}{{ end }} ({{ .Date.Format "2006-01-02" }})
+- [{{ .Title }}]({{ .Permalink }}){{ with .Params.subtitle }}: {{ . }}{{ else }}{{ with .Summary }}: {{ . | plainify | truncate 160 }}{{ end }}{{ end }}{{ if not .Date.IsZero }} ({{ .Date.Format "2006-01-02" }}){{ end }}
 {{- end }}
 {{- else }}
 - (No posts yet.)
@@ -58,7 +58,7 @@ This is the personal website of {{ site.Params.author }} ({{ site.Params.brand }
 
 ## Work
 
-{{- with site.Data.work }}
+{{- with hugo.Data.work }}
 {{- range . }}
 - {{ .role }} at {{ .company }} ({{ .when }}){{ with .oneliner }} — {{ . }}{{ end }}
 {{- end }}
@@ -66,7 +66,7 @@ This is the personal website of {{ site.Params.author }} ({{ site.Params.brand }
 
 ## Publications
 
-{{- with site.Data.publications }}
+{{- with hugo.Data.publications }}
 {{- range . }}
 - "{{ .title }}" — {{ .authors }}. *{{ .venue }}*, {{ .date }}.{{ with .href }} {{ . }}{{ end }}
 {{- end }}

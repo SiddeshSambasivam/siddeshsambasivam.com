@@ -11,7 +11,9 @@
 {{- $ogSrc := resources.Get "media/profile.png" -}}
 {{- $ogImage := ($ogSrc.Fill "1200x630 Center png") | resources.Fingerprint -}}
 {{- $ogImageURL := $ogImage.Permalink -}}
-{{- if and .IsPage .Params.cover -}}{{- $ogImageURL = absURL .Params.cover -}}{{- end -}}
+{{- if .IsPage -}}
+  {{- with partial "media-src.html" (or .Params.card_image .Params.banner_image) }}{{ $ogImageURL = absURL . }}{{ end -}}
+{{- end -}}
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{{ $title }}</title>
@@ -35,8 +37,10 @@
 <meta property="og:image:height" content="630"/>
 <meta property="og:locale" content="en_US"/>
 {{- if .IsPage }}
+{{- if not .Date.IsZero }}
 <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}"/>
 <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"/>
+{{- end }}
 <meta property="article:author" content="{{ site.Params.author }}"/>
 {{- range .Params.tags }}<meta property="article:tag" content="{{ . }}"/>{{ end }}
 {{- end }}
@@ -46,6 +50,14 @@
 <meta name="twitter:image" content="{{ $ogImageURL }}"/>
 {{- with site.Params.socials.x }}<meta name="twitter:site" content="@{{ index (last 1 (split (trim . "/") "/")) 0 }}"/>{{ end }}
 <link rel="canonical" href="{{ .Permalink }}"/>
+{{- if hugo.IsProduction }}{{ with site.Params.analytics.umami_website_id }}
+<script defer src="https://cloud.umami.is/script.js" data-website-id="{{ . }}" data-domains="{{ (urls.Parse site.BaseURL).Host }}"></script>
+{{- end }}{{ end }}
+{{- if and .IsPage .Params.video }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vidstack@1.15.7/player/styles/default/theme.css" integrity="sha384-7HVHtwv1jAsERSB1l8ysZZlKx9beWwd9dGojBnKFWomqs6WCXUeC+L79DweRc+Fm" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vidstack@1.15.7/player/styles/default/layouts/video.css" integrity="sha384-Pye8mXuY3OU46b5zsf/OBfd+esy+JP/GiOsEnr6qo5iJ9+6c9kJPLAzuHXFsf7Su" crossorigin="anonymous"/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/vidstack@1.15.7/cdn/with-layouts/vidstack.js" integrity="sha384-1v9tw23q7QsrPXh1XOxqBNGQTcHi9co1ZPWWEgEn5OSbJ9A1XS2NqD7RJkj6H/Qj" crossorigin="anonymous"></script>
+{{- end }}
 {{ with .OutputFormats.Get "rss" }}<link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}"/>{{ end }}
 {{ with .OutputFormats.Get "LLMS" }}<link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="LLMs index"/>{{ end }}
 {{ partial "jsonld.html" . }}

@@ -1,0 +1,13 @@
+{{- /*
+  The row under a flow diagram: Previous, play/pause and Next. Pass the noun the
+  buttons step through, like "step" or "state". main.js unhides play/pause for a
+  diagram with data-flow-autoplay.
+*/ -}}
+<div class="flow-nav">
+  <button type="button" class="flow-nav-btn" data-flow-step="-1" aria-label="Previous {{ . }}">{{ partial "icons.html" (dict "name" "arrow-left" "size" 12) }} Previous</button>
+  <button type="button" class="flow-nav-btn flow-play" data-flow-play aria-pressed="false" aria-label="Play the {{ . }}s in turn" data-tip="Play" hidden>
+    <svg class="flow-play-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.93-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z" fill="currentColor"/></svg>
+    <svg class="flow-pause-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"/></svg>
+  </button>
+  <button type="button" class="flow-nav-btn" data-flow-step="1" aria-label="Next {{ . }}">Next {{ partial "icons.html" (dict "name" "chev-right" "size" 12) }}</button>
+</div>

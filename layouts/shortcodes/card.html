@@ -1,6 +1,8 @@
 {{- $title := .Get "title" -}}
 {{- $label := .Get "label" -}}
 {{- $href  := .Get "href" -}}
-{{- $tag := "div" -}}{{- if $href }}{{- $tag = "a" -}}{{- end -}}
 {{- $inner := .Inner | $.Page.RenderString -}}
-<{{ $tag }} class="card"{{ with $href }} href="{{ . }}"{{ end }}>{{ with $label }}<div class="card-label">{{ . }}</div>{{ end }}{{ with $title }}<div class="card-title">{{ . }}</div>{{ end }}<div class="card-body">{{ $inner }}</div></{{ $tag }}>
+{{- /* A literal tag per branch: html/template escapes a tag name built from a variable. */ -}}
+{{- if $href }}<a class="card" href="{{ $href }}">{{ else }}<div class="card">{{ end -}}
+{{ with $label }}<div class="card-label">{{ . }}</div>{{ end }}{{ with $title }}<div class="card-title">{{ . }}</div>{{ end }}<div class="card-body">{{ $inner }}</div>
+{{- if $href }}</a>{{ else }}</div>{{ end -}}

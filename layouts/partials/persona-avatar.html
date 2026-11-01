@@ -1,0 +1,17 @@
+{{- /*
+  An OpenPlan persona avatar: a lit sphere in the role's colours with one prop,
+  the same drawing as the app's PersonaAvatar. Pass the role: product,
+  engineering, design or oncall. Size it with font-size, since it is drawn in em.
+*/ -}}
+<span class="persona" data-role="{{ . }}" aria-hidden="true">
+  <span class="persona-head">
+    <span class="persona-ball"><span class="persona-light"></span></span>
+    {{- if eq . "product" }}<span class="persona-pennant"></span>{{ end }}
+    {{- if eq . "design" }}<span class="persona-beret"></span>{{ end }}
+    {{- if eq . "oncall" }}<span class="persona-band"></span><span class="persona-cup"></span><span class="persona-cup"></span><span class="persona-mic"></span><span class="persona-siren"></span>{{ end }}
+    <span class="persona-face">
+      <span class="persona-eyes"><span class="persona-eye"></span><span class="persona-eye"></span></span>
+      {{- if eq . "engineering" }}<span class="persona-glasses"><span class="persona-bridge"></span></span>{{ end }}
+    </span>
+  </span>
+</span>

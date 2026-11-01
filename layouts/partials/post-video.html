@@ -1,0 +1,27 @@
+{{- /* Product video under the post header. Set `video` and, optionally, `video_poster` in front matter. */ -}}
+{{- with partial "media-src.html" .Params.video }}
+<div class="post-video">
+  <media-player src="{{ . }}" title="{{ $.Title }}" playsinline>
+    <media-provider>
+      {{- with partial "media-src.html" $.Params.video_poster }}
+      <media-poster class="vds-poster" src="{{ . }}" alt="{{ $.Title }}"></media-poster>
+      {{- end }}
+    </media-provider>
+    <media-video-layout></media-video-layout>
+    <media-play-button class="post-video-play" aria-label="Play video">
+      <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.93-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z" fill="currentColor"/></svg>
+    </media-play-button>
+  </media-player>
+  {{- /* main.js shows this over the video on the first press of play, unless the reader chose "Don't show again". */}}
+  <div class="video-nudge" data-video-nudge hidden>
+    <div class="video-nudge-card" role="dialog" aria-label="Before you play">
+      <p class="video-nudge-text"><strong>Psst.</strong> This one looks best in fullscreen. It also has light music, so turn the volume down if you're somewhere public.</p>
+      <div class="video-nudge-actions">
+        <button type="button" class="btn ink video-nudge-full" data-nudge-full>Watch fullscreen</button>
+        <button type="button" class="video-nudge-here" data-nudge-here>Play here</button>
+      </div>
+      <button type="button" class="video-nudge-never" data-nudge-never>Don't show again</button>
+    </div>
+  </div>
+</div>
+{{- end }}

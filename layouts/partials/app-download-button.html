@@ -1,0 +1,23 @@
+{{- /*
+  Split download button: the main link goes to the first file for the visitor's OS
+  (main.js picks it from the data-url-* attributes), the menu lists every file.
+  Takes the dict "primary" (os -> url), "files", "version" and "placement" built by app-download.html.
+  data-umami-event-* attributes record each download click in Umami (see params.analytics).
+*/ -}}
+<div class="app-download-group" data-app-download>
+  <a class="btn ink app-download-main" href="{{ .primary.macos }}" data-app-main
+    data-umami-event-placement="{{ .placement }}" data-umami-event-version="{{ .version }}"
+    {{- range $os, $url := .primary }} data-url-{{ $os }}="{{ $url }}"{{ end }}>
+    {{ partial "icons.html" (dict "name" "download" "size" 14) }}
+    <span data-app-main-label>Download for macOS</span>
+  </a>
+  <details class="app-download-menu">
+    <summary class="btn ink" aria-label="All downloads">{{ partial "icons.html" (dict "name" "chev-down" "size" 14) }}</summary>
+    <div class="app-download-list">
+      {{- range .files }}
+      <a href="{{ .url }}" data-os="{{ .os }}" data-umami-event="download" data-umami-event-os="{{ .os }}"
+        data-umami-event-format="{{ strings.TrimPrefix "." (path.Ext .path) }}" data-umami-event-placement="{{ $.placement }}" data-umami-event-version="{{ $.version }}"><span>{{ .label }}</span><span class="app-download-detail">{{ .detail }}</span></a>
+      {{- end }}
+    </div>
+  </details>
+</div>

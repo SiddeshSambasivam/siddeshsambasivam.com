@@ -1,0 +1,93 @@
+{{- /*
+  A working copy of OpenPlan's Alignment tab, for the post. It mirrors the app:
+  personas ask in a group thread, each question has radio options with one
+  recommended and "Write my own" last, and the score card counts the way the app
+  does (up to 80 for settled areas, up to 20 for answers that say why).
+  Reads `alignment_demo` from front matter: plan, target and questions, each with
+  role, aspect, question and options (label, consequence, recommended).
+  Without JavaScript the thread shows and nothing is scored.
+*/ -}}
+{{- $d := .Page.Params.alignment_demo -}}
+{{- if not $d -}}
+<div class="callout" data-type="warn"><div class="callout-body">align-demo: <code>alignment_demo</code> missing in front matter</div></div>
+{{- else -}}
+{{- /* The same names and titles as PERSONAS in the app's src/lib/work.ts. */ -}}
+{{- $personas := dict
+  "product" (dict "name" "Mila" "title" "Product owner")
+  "engineering" (dict "name" "Theo" "title" "Tech lead")
+  "design" (dict "name" "Iris" "title" "Designer")
+  "oncall" (dict "name" "Kai" "title" "On-call") -}}
+{{- $target := $d.target | default 80 -}}
+{{- $total := len $d.questions -}}
+<figure class="ad" data-align-demo data-target="{{ $target }}">
+  <div class="ad-window">
+    <div class="ad-titlebar">
+      <span class="ad-lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="ad-title">{{ $d.plan }}</span>
+      <button type="button" class="ad-build" data-ad-build data-tip="Align with the agent first. Alignment is 0%, and Build opens at {{ $target }}%." disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
+        Build
+      </button>
+    </div>
+    <div class="ad-tabs" aria-hidden="true">
+      <span class="ad-tab">Plan</span>
+      <span class="ad-tab is-active">Alignment <span class="ad-waiting" data-ad-waiting>{{ $total }}</span></span>
+    </div>
+    <div class="ad-body">
+      <div class="ad-head">
+        <span class="ad-thread-name">Everyone</span>
+        <div class="ad-scorecard" aria-live="polite">
+          <span class="ad-ring" data-ad-ring role="img" aria-label="Alignment score" style="--value: 0; --target: {{ $target }}"><span class="ad-ring-fill"></span><span class="ad-ring-notch"></span><span class="ad-ring-num" data-ad-score>0</span></span>
+          <span class="ad-score-lbl">Alignment</span>
+          <span class="ad-areas" data-ad-areas></span>
+          <span class="ad-pill" data-ad-pill>Below your {{ $target }}% target</span>
+        </div>
+      </div>
+      <div class="ad-round">Round 1 · after your first review</div>
+      <div class="ad-thread">
+        {{- range $i, $q := $d.questions }}
+        {{- $p := index $personas $q.role }}
+        <div class="ad-msg" data-ad-q data-role="{{ $q.role }}" data-aspect="{{ $q.aspect }}">
+          {{ partial "persona-avatar.html" $q.role }}
+          <div class="ad-msg-main">
+            <div class="ad-msg-meta">
+              <span class="ad-name">{{ $p.name }}</span>
+              <span class="ad-role">{{ $p.title }}</span>
+              <span class="ad-aspect">{{ $q.aspect }}</span>
+            </div>
+            <div class="ad-bubble">
+              <p class="ad-question">{{ $q.question }}</p>
+              <div class="ad-opts" role="radiogroup" aria-label="{{ $q.question }}">
+                {{- range $q.options }}
+                <button type="button" class="ad-opt" role="radio" aria-checked="false" data-ad-opt data-label="{{ .label }}">
+                  <span class="ad-radio" aria-hidden="true"></span>
+                  <span class="ad-opt-main">
+                    <span class="ad-opt-label">{{ .label }}{{ if .recommended }} <span class="ad-rec">Recommended</span>{{ end }}</span>
+                    {{- with .consequence }}<span class="ad-cons">{{ . }}</span>{{ end }}
+                  </span>
+                </button>
+                {{- end }}
+                <button type="button" class="ad-opt" role="radio" aria-checked="false" data-ad-own>
+                  <span class="ad-radio" aria-hidden="true"></span>
+                  <span class="ad-opt-main"><span class="ad-opt-label">Write my own</span><span class="ad-cons">An answer that says why adds to the score.</span></span>
+                </button>
+              </div>
+              <form class="ad-own" data-ad-own-form hidden>
+                <input type="text" class="ad-own-input" placeholder="Your answer, and why" aria-label="Your answer" data-ad-own-input/>
+                <button type="submit" class="ad-send">Reply</button>
+              </form>
+            </div>
+            <div class="ad-reply-row"><div class="ad-reply" data-ad-reply hidden></div></div>
+          </div>
+        </div>
+        {{- end }}
+      </div>
+      <div class="ad-foot">
+        <span class="ad-note" data-ad-note>Pick an answer for each question. Build opens at {{ $target }}%.</span>
+        <button type="button" class="ad-reset" data-ad-reset hidden>Start over</button>
+      </div>
+    </div>
+  </div>
+  <figcaption class="ad-caption">An example plan in OpenPlan's Alignment tab. Pick answers to see the score and Build respond.</figcaption>
+</figure>
+{{- end -}}

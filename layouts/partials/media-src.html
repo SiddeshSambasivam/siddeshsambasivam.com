@@ -1,0 +1,13 @@
+{{- /*
+  Resolves a front matter image or video to a URL. Paths starting with "/" or "http"
+  pass through. Bare names load from assets/media. Returns "" when unset.
+*/ -}}
+{{- $src := "" -}}
+{{- with . -}}
+  {{- if or (hasPrefix . "/") (hasPrefix . "http") -}}
+    {{- $src = . -}}
+  {{- else -}}
+    {{- with resources.Get (printf "media/%s" .) }}{{ $src = .RelPermalink }}{{ else }}{{ warnf "media file %q not found in assets/media" . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $src -}}

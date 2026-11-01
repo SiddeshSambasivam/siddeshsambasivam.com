@@ -1,0 +1,24 @@
+{{- /*
+  Reads the release version from an app's manifest at build time.
+  Returns "" and logs a warning when the manifest is unset or unreadable,
+  so a bucket outage hides the button instead of failing the deploy.
+*/ -}}
+{{- $version := "" -}}
+{{- with .manifest -}}
+  {{- $url := . -}}
+  {{- with try (resources.GetRemote $url) -}}
+    {{- with .Err -}}
+      {{- warnf "app download: could not fetch %s: %s" $url . -}}
+    {{- else with .Value -}}
+      {{- /* Unmarshal the text, not the resource: on `hugo server` rebuilds the resource form returns an empty map. */ -}}
+      {{- with (transform.Unmarshal .Content).version -}}
+        {{- $version = strings.TrimPrefix "v" (string .) -}}
+      {{- else -}}
+        {{- warnf "app download: %s has no version field" $url -}}
+      {{- end -}}
+    {{- else -}}
+      {{- warnf "app download: %s returned nothing" $url -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $version -}}

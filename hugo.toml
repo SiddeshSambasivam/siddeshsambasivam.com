@@ -1,5 +1,5 @@
 baseURL = "https://siddeshsambasivam.com/"
-languageCode = "en-us"
+locale = "en-us"
 title = "Sid's Website"
 enableRobotsTXT = true
 enableGitInfo = false
@@ -8,7 +8,7 @@ summaryLength = 30
 
 # Pretty URLs, no ugly extensions
 [permalinks]
-  projects = "/projects/:filename/"
+  projects = "/projects/:contentbasename/"
 
 [markup]
   [markup.goldmark.renderer]
@@ -55,6 +55,13 @@ summaryLength = 30
   copyright_year = 2026
 
   hero_bullets = []
+  # Show the "Selected work" project list on the home page.
+  home_projects = false
+
+  # Umami Cloud page views and click events. Empty = no tracking.
+  # Loads only in production builds on the baseURL domain, so local and preview visits aren't counted.
+  [params.analytics]
+    umami_website_id = "fb817710-aad6-43ee-b23c-ea5b5434ddd8"
 
   [params.giscus]
     repo = "SiddeshSambasivam/siddeshsambasivam.com"
@@ -73,7 +80,7 @@ summaryLength = 30
   [params.socials]
     github = "https://github.com/SiddeshSambasivam"
     linkedin = "https://www.linkedin.com/in/siddeshss/"
-    x = "https://x.com/ssiddesh45"
+    x = "https://x.com/SiddSambasivam"
     scholar = "https://scholar.google.com/citations?user=cK5ea-cAAAAJ&hl=en"
     garden = "https://notes.siddeshsambasivam.com/"
     email = "mailto:siddeshsambasivam.official@gmail.com"
@@ -108,3 +115,8 @@ summaryLength = 30
 
 [minify]
   minifyOutput = true
+
+# Fetch remote files (the app download manifest) fresh on every build.
+# Netlify keeps Hugo's cache between builds, so a cached manifest would pin an old release.
+[caches.getresource]
+  maxAge = 0

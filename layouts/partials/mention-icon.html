@@ -1,0 +1,14 @@
+{{- /*
+  Fetches a site's icon at build time and publishes it from this site, so readers
+  never contact the icon service. Returns "" (with a warning) when the fetch fails.
+*/ -}}
+{{- $src := "" -}}
+{{- $url := printf "https://www.google.com/s2/favicons?domain=%s&sz=64" .domain -}}
+{{- with try (resources.GetRemote $url) -}}
+  {{- with .Err -}}
+    {{- warnf "mention: could not fetch the icon for %s: %s" $.domain . -}}
+  {{- else with .Value -}}
+    {{- $src = (resources.Copy (printf "media/mentions/%s.%s" $.key .MediaType.SubType) . | resources.Fingerprint).RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+{{- return $src -}}

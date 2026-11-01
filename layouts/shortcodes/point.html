@@ -1,0 +1,11 @@
+{{- /*
+  A numbered point with its body indented under the title.
+  Usage: {{< point n="1" title="Good tools build good habits" >}}Markdown{{< /point >}}
+*/ -}}
+<div class="point">
+  <span class="point-num" aria-hidden="true">{{ .Get "n" }}</span>
+  <div class="point-body">
+    {{- with .Get "title" }}<div class="point-title">{{ . }}</div>{{ end }}
+    {{ .Inner | .Page.RenderString }}
+  </div>
+</div>

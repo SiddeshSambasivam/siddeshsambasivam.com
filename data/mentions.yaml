@@ -1,0 +1,8 @@
+# Products a post can mention with {{< mention "key" >}}. The build fetches each
+# icon once from Google's favicon service for `domain` and serves it from this site.
+linear: { name: Linear, url: "https://linear.app", domain: linear.app }
+arc: { name: Arc, url: "https://arc.net", domain: arc.net }
+xai: { name: xAI, url: "https://x.ai", domain: x.ai }
+notion: { name: Notion, url: "https://www.notion.com", domain: notion.com }
+openai: { name: OpenAI, url: "https://openai.com", domain: openai.com }
+anthropic: { name: Anthropic, url: "https://www.anthropic.com", domain: anthropic.com }

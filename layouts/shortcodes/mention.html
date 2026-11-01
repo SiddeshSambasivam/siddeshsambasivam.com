@@ -1,0 +1,12 @@
+{{- /*
+  A product mention with its icon, like a Notion link. Usage: {{< mention "linear" >}}.
+  Entries live in data/mentions.yaml. If the icon can't be fetched, the first letter stands in.
+*/ -}}
+{{- $key := .Get 0 -}}
+{{- $m := index hugo.Data.mentions $key -}}
+{{- if not $m }}{{ errorf "mention: %q is not in data/mentions.yaml" $key }}{{ end -}}
+{{- $icon := partial "mention-icon.html" (dict "key" $key "domain" $m.domain) -}}
+<a class="mention" href="{{ $m.url }}" rel="noopener" target="_blank">
+  {{- if $icon }}<img class="mention-icon" src="{{ $icon }}" width="16" height="16" alt="" loading="lazy"/>{{ else }}<span class="mention-icon mention-letter" aria-hidden="true">{{ substr $m.name 0 1 }}</span>{{ end -}}
+  <span class="mention-name">{{ $m.name }}</span></a>
+{{- /* trim */ -}}

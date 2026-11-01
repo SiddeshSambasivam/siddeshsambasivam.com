@@ -1,0 +1,27 @@
+# Desktop apps a post can offer for download with `app: <key>` in front matter.
+# The build reads `version` from the manifest (the Tauri updater's latest.json),
+# then fills {version} in each path. Paths are relative to the manifest's folder.
+# The first file for each OS is the main button on that OS.
+openplan:
+  name: OpenPlan
+  icon: openplan-icon.png  # in assets/media
+  tagline: "Agree with your coding agent on what to build before it writes any code."
+  license: "Open source"
+  # The source repo. The side card and the callout link to it; leave it empty to hide the link.
+  repo: "https://github.com/SiddeshSambasivam/openplan"
+  manifest: "https://d1a9q4jq770jc6.cloudfront.net/latest.json"
+  # Shown in a dialog right after a download for that OS. An OS without a block gets no dialog.
+  # Each block: note, then an optional terminal command, then after.
+  # Markdown is allowed in note and after.
+  install:
+    macos:
+      note: "Confession: I haven't paid Apple's $99 a year developer fee yet, so macOS won't trust OpenPlan on first launch. Drag it to Applications, then run this once in Terminal:"
+      terminal: "xattr -dr com.apple.quarantine /Applications/OpenPlan.app"
+      after: "Rather click? Open OpenPlan, click Done, then go to System Settings, Privacy & Security and click Open Anyway."
+  files:
+    - { os: macos, label: macOS, detail: "Universal .dmg", path: "releases/{version}/OpenPlan_{version}_universal.dmg" }
+    - { os: windows, label: Windows, detail: "Installer .exe", path: "releases/{version}/OpenPlan_{version}_x64-setup.exe" }
+    - { os: windows, label: Windows, detail: ".msi", path: "releases/{version}/OpenPlan_{version}_x64_en-US.msi" }
+    - { os: linux, label: Linux, detail: "AppImage", path: "releases/{version}/OpenPlan_{version}_amd64.AppImage" }
+    - { os: linux, label: Linux, detail: ".deb", path: "releases/{version}/OpenPlan_{version}_amd64.deb" }
+    - { os: linux, label: Linux, detail: ".rpm", path: "releases/{version}/OpenPlan-{version}-1.x86_64.rpm" }

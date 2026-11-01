@@ -1,0 +1,19 @@
+{{- $m := . -}}
+{{- if $m.members -}}
+{{- $label := or $m.group (printf "%s family" $m.name) -}}
+<div class="mm-group" data-group="{{ $label | urlize }}">
+  <span class="mm-group-label">{{ $label }}</span>
+  <button type="button" class="mm-point mm-point-anchor" data-era="{{ $m.era }}" data-name="{{ $m.name }}" data-desc="{{ $m.desc }}">
+    <span class="mm-marker"></span><span class="mm-pt-name">{{ $m.name }}</span>
+  </button>
+  {{- range $m.members }}
+  <button type="button" class="mm-point" data-era="{{ .era }}" data-name="{{ .name }}" data-desc="{{ .desc }}">
+    <span class="mm-marker"></span><span class="mm-pt-name">{{ .name }}</span>
+  </button>
+  {{- end }}
+</div>
+{{- else -}}
+<button type="button" class="mm-point" data-era="{{ $m.era }}" data-name="{{ $m.name }}" data-desc="{{ $m.desc }}">
+  <span class="mm-marker"></span><span class="mm-pt-name">{{ $m.name }}</span>
+</button>
+{{- end -}}

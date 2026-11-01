@@ -27,7 +27,7 @@
       {{- $book := . }}
       {{- $entries := first 5 (sort .RegularPages "Date" "desc") }}
       {{- $total := len .RegularPages }}
-      {{- $bookHay := printf "%s %s %s" .Title (or .Params.oneliner "") (delimit .Params.tags " ") | lower }}
+      {{- $bookHay := printf "%s %s %s" .Title (or .Params.oneliner "") (delimit (.Params.tags | default slice) " ") | lower }}
       <article class="logbook-block" data-search-block data-search-block-text="{{ $bookHay }}">
         <header class="logbook-block-head">
           <a href="{{ $book.RelPermalink }}" class="logbook-block-title-link">
@@ -46,12 +46,12 @@
         {{- if $entries }}
         <ol class="log-timeline log-timeline-compact">
           {{- range $entries }}
-          {{- $hay := printf "%s %s %s %s" .Title $bookHay (delimit .Params.tags " ") (.Summary | plainify) | lower }}
+          {{- $hay := printf "%s %s %s %s" .Title $bookHay (delimit (.Params.tags | default slice) " ") (.Summary | plainify) | lower }}
           <li class="log-item" data-feed-row data-search-text="{{ $hay }}">
             <a href="{{ .RelPermalink }}" class="log-link">
               <div class="log-when">
-                <span class="log-date">{{ .Date.Format "Jan 02" }}</span>
-                <span class="log-year">{{ .Date.Format "2006" }}</span>
+                <span class="log-date">{{ if not .Date.IsZero }}{{ .Date.Format "Jan 02" }}{{ end }}</span>
+                <span class="log-year">{{ if not .Date.IsZero }}{{ .Date.Format "2006" }}{{ end }}</span>
               </div>
               <div class="log-rail"><span class="log-node"></span></div>
               <div class="log-body">
@@ -86,14 +86,14 @@
     <div class="section-head" style="margin-top:32px"><h2>Posts</h2><span style="color:var(--text-mute);font-size:0.78rem">Standalone notes, postmortems, and essays</span></div>
     <div class="feed" data-search-group>
       {{- range $posts }}
-      <a href="{{ or .Params.external_url .RelPermalink }}" class="feed-row" data-feed-row data-search-text="{{ printf "%s %s %s" .Title (delimit .Params.tags " ") .Summary | lower }}" style="grid-template-columns:72px 1fr auto auto 14px;gap:12px"{{ if .Params.external_url }} rel="noopener" target="_blank"{{ end }}>
+      <a href="{{ or .Params.external_url .RelPermalink }}" class="feed-row" data-feed-row data-search-text="{{ printf "%s %s %s" .Title (delimit (.Params.tags | default slice) " ") .Summary | lower }}" style="grid-template-columns:72px 1fr auto auto 14px;gap:12px"{{ if .Params.external_url }} rel="noopener" target="_blank"{{ end }}>
         <span class="feed-type">{{ .Params.feed_type | default "post" }}</span>
         <span style="display:flex;flex-direction:column;min-width:0;gap:1px">
           <span class="feed-title">{{ .Title }}</span>
           <span style="font-size:0.78rem;color:var(--text-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ or .Params.oneliner (.Summary | plainify | truncate 140) }}</span>
         </span>
         <span class="feed-tags">{{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}</span>
-        <span class="feed-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+        <span class="feed-date">{{ if not .Date.IsZero }}{{ .Date.Format "Jan 02, 2006" }}{{ end }}</span>
         <span class="feed-arrow">{{ partial "icons.html" (dict "name" "chev-right" "size" 13) }}</span>
       </a>
       {{- end }}
@@ -157,8 +157,8 @@
         <li class="log-item">
           <a href="{{ .RelPermalink }}" class="log-link">
             <div class="log-when">
-              <span class="log-date">{{ .Date.Format "Jan 02" }}</span>
-              <span class="log-year">{{ .Date.Format "2006" }}</span>
+              <span class="log-date">{{ if not .Date.IsZero }}{{ .Date.Format "Jan 02" }}{{ end }}</span>
+              <span class="log-year">{{ if not .Date.IsZero }}{{ .Date.Format "2006" }}{{ end }}</span>
             </div>
             <div class="log-rail"><span class="log-node"></span></div>
             <div class="log-body">

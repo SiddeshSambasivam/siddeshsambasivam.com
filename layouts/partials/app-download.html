@@ -1,0 +1,74 @@
+{{- /*
+  Download for a desktop app in data/apps.yaml.
+  Usage: partial "app-download.html" (dict "app" "openplan" "style" "callout")
+  "placement" names the compact button in analytics (default "home-card").
+  style:
+    callout  card with icon, name, pitch and every installer, anchored at #download
+    cta      small sticky card with one button for the visitor's OS and a link to #download
+    (unset)  compact button with a menu of every installer
+  Renders nothing when the manifest is unset or can't be read.
+*/ -}}
+{{- $app := index hugo.Data.apps .app | default dict -}}
+{{- $version := partial "app-version.html" $app -}}
+{{- if $version }}
+{{- $base := replaceRE `[^/]*$` "" $app.manifest -}}
+{{- $primary := dict -}}
+{{- $files := slice -}}
+{{- range $app.files -}}
+  {{- $url := printf "%s%s" $base (replace .path "{version}" $version) -}}
+  {{- $files = $files | append (merge . (dict "url" $url)) -}}
+  {{- if not (index $primary .os) }}{{ $primary = merge $primary (dict .os $url) }}{{ end -}}
+{{- end }}
+{{- $button := dict "primary" $primary "files" $files "version" $version -}}
+{{- $icon := "" -}}
+{{- with $app.icon }}{{ with resources.Get (printf "media/%s" .) }}{{ $icon = (.Resize "112x webp").RelPermalink }}{{ end }}{{ end -}}
+{{- /* Dialog body main.js opens after a download click, showing only that OS's notes. */ -}}
+{{- $dialog := "" -}}
+{{- with $app.install -}}
+  {{- $head := `<h2 class="app-dialog-title" id="app-dialog-title">Your download has started.</h2>` -}}
+  {{- with $icon }}{{ $head = printf `<div class="app-dialog-head"><img class="app-dialog-icon" src="%s" width="44" height="44" alt=""/>%s</div>` . $head }}{{ end -}}
+  {{- $dialog = printf `<template data-app-install><div class="app-dialog-body">%s%s<form method="dialog"><button class="btn ink app-dialog-ok">Got it</button></form></div></template>` $head (partial "app-install-notes.html" $app) -}}
+{{- end -}}
+{{- if eq .style "callout" }}
+<aside class="app-callout" id="download" data-app-widget>
+  {{- with $icon }}<img class="app-callout-icon" src="{{ . }}" width="56" height="56" alt=""/>{{ end }}
+  <div class="app-callout-body">
+    <div class="app-callout-title">{{ $app.name }} for desktop</div>
+    {{- with $app.tagline }}<p class="app-callout-sub">{{ . }}</p>{{ end }}
+    <div class="app-callout-meta">v{{ $version }} · macOS, Windows, Linux{{ with $app.license }}{{ if not $app.repo }} · {{ . }}{{ end }}{{ end }}</div>
+    {{- with $app.repo }}
+    <a class="app-callout-repo" href="{{ . }}" rel="noopener" target="_blank" data-umami-event="github-repo" data-umami-event-placement="callout">{{ partial "icons.html" (dict "name" "github" "size" 12) }}{{ $app.license | default "Source" }} on GitHub</a>
+    {{- end }}
+  </div>
+  {{ partial "app-download-button.html" (merge $button (dict "placement" "callout")) }}
+  {{ $dialog | safeHTML }}
+</aside>
+{{- else if eq .style "cta" }}
+<div class="app-cta" data-app-download data-app-widget data-app-fallback="#download">
+  <div class="app-cta-head">
+    {{- with $icon }}<img class="app-cta-icon" src="{{ . }}" width="36" height="36" alt=""/>{{ end }}
+    <div>
+      <div class="app-cta-name">{{ $app.name }}</div>
+      <div class="app-cta-meta">Desktop app · v{{ $version }}</div>
+    </div>
+    {{- with $app.repo }}
+    <a class="app-cta-repo" href="{{ . }}" rel="noopener" target="_blank" aria-label="{{ $app.name }} on GitHub" data-tip="View on GitHub" data-umami-event="github-repo" data-umami-event-placement="side-card">{{ partial "icons.html" (dict "name" "github" "size" 16) }}</a>
+    {{- end }}
+  </div>
+  <a class="btn ink app-cta-main" href="{{ $primary.macos }}" data-app-main
+    data-umami-event-placement="side-card" data-umami-event-version="{{ $version }}"
+    {{- range $os, $url := $primary }} data-url-{{ $os }}="{{ $url }}"{{ end }}>
+    {{ partial "icons.html" (dict "name" "download" "size" 14) }}
+    <span data-app-main-label>Download for macOS</span>
+  </a>
+  <a class="app-cta-more" href="#download" data-umami-event="download-more-versions">More platforms and versions</a>
+  {{ $dialog | safeHTML }}
+</div>
+{{- else }}
+<div class="app-download" data-app-widget>
+  {{ partial "app-download-button.html" (merge $button (dict "placement" (.placement | default "home-card"))) }}
+  <span class="app-download-meta">v{{ $version }} · Desktop app for macOS, Windows and Linux</span>
+  {{ $dialog | safeHTML }}
+</div>
+{{- end }}
+{{- end -}}

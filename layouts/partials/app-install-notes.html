@@ -1,0 +1,18 @@
+{{- /*
+  Install notes from an app's `install` block in data/apps.yaml, keyed by OS.
+  main.js shows the block for the downloaded file's OS in a dialog after the click.
+  A `terminal` command renders as a terminal window with a Copy button.
+*/ -}}
+{{- range $os, $notes := .install }}
+<div class="app-install" data-install-os="{{ $os }}">
+  {{- with $notes.note }}<p class="app-install-note">{{ . | markdownify }}</p>{{ end }}
+  {{- with $notes.terminal }}
+  <div class="app-terminal">
+    <div class="app-terminal-bar" aria-hidden="true"><span></span><span></span><span></span><em>Terminal</em></div>
+    <pre><code>{{ . }}</code></pre>
+    <button type="button" class="app-terminal-copy" data-copy="{{ . }}" data-copy-os="{{ $os }}">Copy</button>
+  </div>
+  {{- end }}
+  {{- with $notes.after }}<p class="app-install-note app-install-after">{{ . | markdownify }}</p>{{ end }}
+</div>
+{{- end }}

@@ -32,6 +32,12 @@
 <svg {{ safeHTMLAttr $attrs }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ $class }}"><path d="m15 18-6-6 6-6"/></svg>
 {{- else if eq $name "chev-right" -}}
 <svg {{ safeHTMLAttr $attrs }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="{{ $class }}"><path d="m9 18 6-6-6-6"/></svg>
+{{- else if eq $name "chev-up" -}}
+<svg {{ safeHTMLAttr $attrs }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="{{ $class }}"><path d="m18 15-6-6-6 6"/></svg>
+{{- else if eq $name "chev-down" -}}
+<svg {{ safeHTMLAttr $attrs }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="{{ $class }}"><path d="m6 9 6 6 6-6"/></svg>
+{{- else if eq $name "download" -}}
+<svg {{ safeHTMLAttr $attrs }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="{{ $class }}"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
 {{- else if eq $name "plus" -}}
 <svg {{ safeHTMLAttr $attrs }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="{{ $class }}"><path d="M12 5v14M5 12h14"/></svg>
 {{- else if eq $name "doc" -}}

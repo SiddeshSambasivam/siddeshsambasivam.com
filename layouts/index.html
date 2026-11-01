@@ -27,7 +27,7 @@
     </div>
   </section>
 
-  {{- with site.Data.work }}
+  {{- with hugo.Data.work }}
   <section class="section" id="work">
     <div class="section-head">
       <h2>Work</h2>
@@ -43,7 +43,13 @@
           <div class="tl-role">{{ .role }} · <span style="color:var(--text-soft)">{{ .company }}</span></div>
           <div class="tl-detail"><div class="tl-detail-inner">
             {{- with .bullets -}}
-              <ul class="tl-bullets">{{ range . }}<li>{{ . | safeHTML }}</li>{{ end }}</ul>
+              <ul class="tl-bullets">{{ range first 3 . }}<li>{{ . | safeHTML }}</li>{{ end }}</ul>
+              {{- with after 3 . }}
+              <div class="tl-more" inert>
+                <div class="tl-more-inner"><ul class="tl-bullets">{{ range . }}<li>{{ . | safeHTML }}</li>{{ end }}</ul></div>
+              </div>
+              <button type="button" class="tl-more-toggle" aria-expanded="false" data-tl-more>View {{ len . }} more</button>
+              {{- end }}
             {{- else -}}
               {{ .detail | safeHTML }}
             {{- end -}}
@@ -64,41 +70,38 @@
   {{- end }}
 
   {{- with index $featured 0 }}
-  {{- $cover := .Params.cover -}}
-  {{- $coverSrc := "" -}}
-  {{- if $cover -}}
-    {{- if or (hasPrefix $cover "/") (hasPrefix $cover "http") -}}
-      {{- $coverSrc = $cover -}}
-    {{- else -}}
-      {{- with resources.Get (printf "media/%s" $cover) -}}{{ $coverSrc = .RelPermalink }}{{- end -}}
-    {{- end -}}
-  {{- end }}
+  {{- $cardSrc := partial "media-src.html" .Params.card_image }}
   <section class="section" id="featured">
     <div class="section-head">
       <h2>Featured</h2>
       <span class="head-link" style="color:var(--text-mute)">Editor's pick</span>
     </div>
-    <a href="{{ .RelPermalink }}" class="featured-card">
-      {{- with $coverSrc }}
-      <div class="featured-cover"><img src="{{ . }}" alt="{{ $.Title }}" loading="lazy"/></div>
+    <article class="featured-card">
+      {{- if $cardSrc }}
+      <div class="featured-cover"><img src="{{ $cardSrc }}" alt="{{ .Title }}" loading="lazy"/></div>
       {{- end }}
       <div class="featured-body">
         <div class="featured-eyebrow">
           <span class="featured-badge">Featured</span>
+          {{- if not .Date.IsZero }}
           <span class="featured-date">{{ .Date.Format "Jan 02, 2006" }}</span>
           <span class="featured-dot" aria-hidden="true">·</span>
+          {{- end }}
           <span class="featured-read">{{ .ReadingTime }} min read</span>
         </div>
-        <h3 class="featured-title">{{ .Title }}</h3>
+        <h3 class="featured-title"><a href="{{ .RelPermalink }}" class="featured-link">{{ .Title }}</a></h3>
         {{- with (or .Params.subtitle .Params.oneliner .Summary) }}
         <p class="featured-sub">{{ . | plainify | truncate 200 }}</p>
         {{- end }}
         {{- with .Params.tags }}
         <div class="featured-tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
         {{- end }}
-        <span class="featured-cta">Read the post {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}</span>
+        <div class="featured-actions">
+          <span class="featured-cta">Read the post {{ partial "icons.html" (dict "name" "arrow" "size" 11) }}</span>
+          {{- with .Params.app }}{{ partial "app-download.html" (dict "app" .) }}{{ end }}
+        </div>
       </div>
-    </a>
+    </article>
   </section>
   {{- end }}
 
@@ -120,14 +123,14 @@
             <span class="mini-feed-title">{{ .Title }}</span>
             {{- with (or .Params.oneliner .Params.subtitle) }}<span class="mini-feed-sub">{{ . | plainify | truncate 110 }}</span>{{ end }}
           </span>
-          <span class="mini-feed-date">{{ .Date.Format "Jan 02" }}</span>
+          <span class="mini-feed-date">{{ if not .Date.IsZero }}{{ .Date.Format "Jan 02" }}{{ end }}</span>
         </a>
       {{- end }}
     </div>
   </section>
   {{- end }}
 
-  {{- if $projectPages }}
+  {{- if and $projectPages (ne site.Params.home_projects false) }}
   <section class="section" id="projects">
     <div class="section-head">
       <h2>Selected work</h2>
@@ -149,7 +152,7 @@
   </section>
   {{- end }}
 
-  {{- with site.Data.publications }}
+  {{- with hugo.Data.publications }}
   <section class="section" id="publications">
     <div class="section-head">
       <h2>Selected publications</h2>

@@ -1,0 +1,8 @@
+{{- /*
+  Floating buttons on posts: back to the top, and down to the end. main.js shows
+  each one only when it saves a long scroll.
+*/ -}}
+<div class="scroll-jump" data-scroll-jump>
+  <button type="button" class="scroll-jump-btn" data-scroll-to="top" aria-label="Back to the top" data-tip="Back to the top">{{ partial "icons.html" (dict "name" "chev-up" "size" 16) }}</button>
+  <button type="button" class="scroll-jump-btn" data-scroll-to="end" aria-label="Jump to the end" data-tip="Jump to the end">{{ partial "icons.html" (dict "name" "chev-down" "size" 16) }}</button>
+</div>
