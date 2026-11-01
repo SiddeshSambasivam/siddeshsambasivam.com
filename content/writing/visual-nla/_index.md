@@ -7,15 +7,28 @@ status: "In progress"
 tags: ["research", "interpretability", "clip"]
 icon: code
 weight: 10
-draft: false
+draft: true
 project: ""
 meta:
   - { label: "Started", value: "May 2026" }
   - { label: "Output", value: "Blog · Repo · Demo" }
 actions:
-  - { label: "Repository", url: "https://github.com/SiddeshSambasivam/visual-nla", icon: "github", primary: true }
-  - { label: "Paper", url: "https://transformer-circuits.pub/2026/nla/index.html", icon: "arrow" }
-  - { label: "Anthropic post", url: "https://www.anthropic.com/research/natural-language-autoencoders", icon: "arrow" }
+  - {
+      label: "Repository",
+      url: "https://github.com/SiddeshSambasivam/visual-nla",
+      icon: "github",
+      primary: true,
+    }
+  - {
+      label: "Paper",
+      url: "https://transformer-circuits.pub/2026/nla/index.html",
+      icon: "arrow",
+    }
+  - {
+      label: "Anthropic post",
+      url: "https://www.anthropic.com/research/natural-language-autoencoders",
+      icon: "arrow",
+    }
 ---
 
 An applied-research exploration: train and probe a CLIP-based **Visual
